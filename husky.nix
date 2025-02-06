@@ -13,11 +13,11 @@ let
   rootPeach = "${root_subvol}-peach";
   rootApple = "${root_subvol}-apple";
 
-#  selectedDE = lib.strings.fileContents "${./huskyos/DE}";
+#  selectedDE = lib.strings.fileContents "${/etc/nixos/huskyos/DE}";
 
-  btrDev = lib.strings.fileContents "${./huskyos/btrfsPart}";
-  efiDev = lib.strings.fileContents "${./huskyos/efiPart}";
-#  btrDev = builtins.elemAt (lib.splitString "\n" (builtins.readFile ./huskyos/btrfsPart)) 0;
+  btrDev = lib.strings.fileContents "${/etc/nixos/huskyos/btrfsPart}";
+  efiDev = lib.strings.fileContents "${/etc/nixos/huskyos/efiPart}";
+#  btrDev = builtins.elemAt (lib.splitString "\n" (builtins.readFile /etc/nixos/huskyos/btrfsPart)) 0;
 
   debuggy.services.openssh.enable = true;
   debuggy.users.users.root.password = "asd";
