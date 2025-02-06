@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  __out.imports = [ debuggy unfree-drivers flakes ] ++ [ desktop.gnome-mini ];
+  __out.imports = [ debuggy unfree-drivers flakes huskyos-fs ] ++ [ desktop.gnome-mini ];
 
   aAPPS = "/apps";
   myApps = "/apps/$(whoami)";
