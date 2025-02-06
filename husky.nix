@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  __out.imports = [ debuggy unfree-drivers flakes huskyos-fs ] ++ [ desktop.gnome-mini ];
+  __out.imports = [ debuggy unfree-drivers flakes huskyos-fs grubby ] ++ [ desktop.gnome-mini ];
 
   aAPPS = "/apps";
   myApps = "/apps/$(whoami)";
@@ -33,6 +33,11 @@ let
 
   flakes.nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  grubby.boot.loader.efi.canTouchEfiVariables = true;
+  grubby.boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  grubby.boot.loader.grub.device = "nodev";
+  grubby.boot.loader.grub.efiSupport = true;
+  grubby.assertions = [ {assertion = config.nixpkgs.hostPlatform == "x86_64-linux"; message = "only x86_64 is supported";} ];
   unfree-drivers.nixpkgs.config.allowUnfree = true;
   unfree-drivers.environment.variables.NIXPKGS_ALLOW_UNFREE = "false";
 
