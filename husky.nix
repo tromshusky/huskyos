@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  __out.imports = [ debuggy unfree-drivers flakes huskyos-fs grubby ] ++ [ desktop.gnome-mini ];
+  __out.imports = [ debuggy unfree-drivers flakes huskyos-fs grubby backup ] ++ [ desktop.gnome-mini ];
 
   aAPPS = "/apps";
   myApps = "/apps/$(whoami)";
@@ -18,6 +18,8 @@ let
   btrDev = lib.strings.fileContents "${/etc/nixos/huskyos/btrfsPart}";
   efiDev = lib.strings.fileContents "${/etc/nixos/huskyos/efiPart}";
 #  btrDev = builtins.elemAt (lib.splitString "\n" (builtins.readFile /etc/nixos/huskyos/btrfsPart)) 0;
+
+  backup.environment.etc."nixos/backup".source = "${./.}";
 
   debuggy.services.openssh.enable = true;
   debuggy.users.users.root.password = "asd";
