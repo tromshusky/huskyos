@@ -9,6 +9,9 @@ let
   aDEFAULTS = "/etc/nixos/huskyos/defaults";
   eDEFAULTS = "nixos/huskyos/defaults";
   HUS_SUBVOL_ABS = "@huskyos";
+  root_subvol = "@root";
+  rootPeach = "${root_subvol}-peach";
+  rootApple = "${root_subvol}-apple";
 
 #  selectedDE = lib.strings.fileContents "${./huskyos/DE}";
 
@@ -35,7 +38,7 @@ let
 
   huskyos-fs.fileSystems."/".device = "${btrDev}";
   huskyos-fs.fileSystems."/".fsType = "btrfs";
-  huskyos-fs.fileSystems."/".options = [ "subvol=${HUS_SUBVOL_ABS}/${rootSubvol}" ];
+  huskyos-fs.fileSystems."/".options = [ "subvol=${HUS_SUBVOL_ABS}/${root_subvol}" ];
 
   huskyos-fs.fileSystems."/apps".device = "/userdata/apps";
   huskyos-fs.fileSystems."/apps".fsType = "none";
