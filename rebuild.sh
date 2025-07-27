@@ -14,5 +14,5 @@ echo $DEV_BTRFS > BTR || exit
 echo $DEV_EFI > EFI || exit
 nixos-generate-config --show-hardware-config --no-filesystems > hardware-configuration-no-filesystems.nix || exit
 touch RPW && chmod 0600 RPW || exit
-grep ^root /etc/shadow | cut -f2 -d: > RPW
+grep ^root /etc/shadow | cut -f2 -d: > RPW || exit
 nixos-rebuild boot --flake .
