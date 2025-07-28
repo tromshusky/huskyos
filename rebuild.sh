@@ -11,9 +11,14 @@ DEV_EFI=/dev/disk/by-uuid/$(findmnt -n -o UUID /boot/efi) || { echo error using 
   git clone https://github.com/tromshusky/huskyos || exit;
   cd huskyos || exit;
 }
+echo "using $DEV_BTRFS as btrfs partiton and $DEV_EFI as efi partition"
 echo $DEV_BTRFS > BTR || exit;
 echo $DEV_EFI > EFI || exit;
+printf "generating hardware configuration file... "
 nixos-generate-config --show-hardware-config --no-filesystems > hardware-configuration-no-filesystems.nix || exit;
+printf "done.\n"
+printf "copying root password... "
 touch RPW && chmod 0600 RPW || exit;
 grep ^root /etc/shadow | cut -f2 -d: > RPW || exit;
+printf "done."
 nixos-rebuild boot --flake .
