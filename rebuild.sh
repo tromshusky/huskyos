@@ -20,7 +20,7 @@ printf "done.\n"
 printf "copying root password... "
 touch RPW && chmod 0600 RPW || exit;
 grep ^root /etc/shadow | cut -f2 -d: > RPW || exit;
-printf "done."
+printf "done.\n"
 printf "generating system for next boot. After its finished, you'll be prompted to reboot. Use \n    nixos-rebuild --rollback \n to rollback ..."
 nixos-rebuild boot --flake .
 printf "done.\n"
