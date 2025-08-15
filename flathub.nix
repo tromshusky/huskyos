@@ -28,7 +28,7 @@
     export DISPLAY=:0
     export XDG_RUNTIME_DIR=/run/user/"$desktop_user_id"
     export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$desktop_user_id/bus
-    toast="$runuser -u $desktop_user_name $notifysend"
+    toast="$runuser -u $desktop_user_name -- $notifysend"
     notification_id=$($toast -p "Installing Flathub" "wait...");
     $flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo &&
     $toast -r $notification_id "Downloading Apps" "wait...";
