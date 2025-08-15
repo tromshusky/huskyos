@@ -22,11 +22,11 @@
     runuser=/run/current-system/sw/bin/runuser
     sleep 30 &&
     active_session=$(loginctl show-seat seat0 | grep "^ActiveSession=" | sed 's|ActiveSession=||')
-    show_session_x=$(loginctl show-session active_session)
-    desktop_user_id=$(printf $show_session_x | grep "^User" | sed 's|User=||')
-    desktop_user_name=$(printf $show_session_x | grep "^Name" | sed 's|Name=||')
+    show_session_x=$(loginctl show-session "$active_session")
+    desktop_user_id=$(printf "$show_session_x" | grep "^User" | sed 's|User=||')
+    desktop_user_name=$(printf $show_session_x" | grep "^Name" | sed 's|Name=||')
     export DISPLAY=:0
-    export XDG_RUNTIME_DIR=/run/user/$desktop_user_id
+    export XDG_RUNTIME_DIR=/run/user/"$desktop_user_id"
     export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$desktop_user_id/bus
     toast="$runuser -u $desktop_user_name $notifysend"
     notification_id=$($toast -p "Installing Flathub" "wait...");
