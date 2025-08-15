@@ -21,7 +21,7 @@
     notifysend=${pkgs.libnotify}/bin/notify-send
     runuser=/run/current-system/sw/bin/runuser
     sleep 30 &&
-    active_session=$(loginctl show-session seat0 | grep "^ActiveSession=" | sed 's|ActiveSession=||')
+    active_session=$(loginctl show-seat seat0 | grep "^ActiveSession=" | sed 's|ActiveSession=||')
     show_session_x=$(loginctl show-session active_session)
     desktop_user_id=$(printf $show_session_x | grep "^User" | sed 's|User=||')
     desktop_user_name=$(printf $show_session_x | grep "^Name" | sed 's|Name=||')
