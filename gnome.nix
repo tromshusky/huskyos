@@ -43,8 +43,8 @@ in
     notifysend=${pkgs.libnotify}/bin/notify-send
     runuser=/run/current-system/sw/bin/runuser
     sleep 30 &&
-    xdgopen "gnome-extensions://touchup%40ityax?action=install" &&
-    gnomeextensions info "touchup@mityax" &&
+    $xdgopen "gnome-extensions://touchup%40ityax?action=install" &&
+    $gnomeextensions info "touchup@mityax" 1>/dev/null &&
     touch $doneFile;
   '';
 
