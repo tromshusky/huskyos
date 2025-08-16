@@ -29,4 +29,23 @@ in
   ];
   programs.dconf.profiles.user.databases = [ dconf1 ];
   documentation.nixos.enable = false;
+
+
+  systemd.user.services.extension-installer.wants = [ "network-online.target" ];
+  systemd.user.services.extension-installer.after = [ "network-online.target" ];
+  systemd.user.services.extension-installer.wantedBy = [ "network-online.target" ];
+  systemd.user.services.extension-installer.enable = true;
+  systemd.user.services.extension-installer.script = ''
+    doneFile=~/.config/GNOME_EXTENSIONS_INITIALIZED
+    [ -e $doneFile ] && exit
+    xdgopen=/run/current-system/sw/bin/xdg-open
+    gnomeextensions=/run/current-system/sw/bin/gnome-extensions
+    notifysend=${pkgs.libnotify}/bin/notify-send
+    runuser=/run/current-system/sw/bin/runuser
+    sleep 30 &&
+    xdgopen "gnome-extensions://touchup%40ityax?action=install" &&
+    gnomeextensions info "touchup@mityax" &&
+    touch $doneFile;
+  '';
+
 }
