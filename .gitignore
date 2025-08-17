@@ -1,5 +1,6 @@
 BTR
 EFI
 RPW
+flake.lock
 hardware-configuration-no-filesystems.nix
 my-config.nix
