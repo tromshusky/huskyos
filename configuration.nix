@@ -15,6 +15,9 @@ in
 
   environment.etc."nixos/backup".source = BACKUP;
 
+  system.autoUpgrade.flake = BACKUP;
+  system.autoUpgrade.enable = true;
+
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.device = "nodev";
   boot.loader.efi.canTouchEfiVariables = true;
