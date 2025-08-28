@@ -1,6 +1,7 @@
 { lib, pkgs, ... }:
 let
 
+  dconf1.settings."org/gnome/desktop/a11y".always-show-universal-access-status = true;
   dconf1.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   dconf1.settings."org/gnome/desktop/interface".enable-hot-corners = false;
 #  dconf1.settings."org/gnome/mutter".dynamic-workspaces = true;
