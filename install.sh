@@ -19,4 +19,4 @@ mount "$TD"2 /mnt/btr
 btrfs subvolume create /mnt/btr/@huskyos
 btrfs subvolume create /mnt/btr/@huskyos/@boot /mnt/btr/@huskyos/@nix /mnt/btr/@huskyos/@userdata
 mkdir /mnt/btr/@huskyos/@userdata/var /mnt/btr/@huskyos/@userdata/etc /mnt/btr/@huskyos/@boot/efi
-btrfs subvolume create /mnt/btr/@huskyos/@userdata/@home /mnt/btr/@huskyos/@userdata/@root /mnt/btr/@huskyos/@userdata/var/@lib /mnt/btr/@huskyos/@userdata/etc/@NetworkManager
+btrfs subvolume create /mnt/btr/@huskyos/@userdata/@home /mnt/btr/@huskyos/@userdata/@root /mnt/btr/@huskyos/@userdata/@steamapps /mnt/btr/@huskyos/@userdata/var/@lib /mnt/btr/@huskyos/@userdata/etc/@NetworkManager
