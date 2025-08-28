@@ -45,6 +45,11 @@ in
       fsType = "btrfs";
       options = [ "subvol=@huskyos/@userdata/@home" ];
     };
+  fileSystems."/steamapps" =
+    { device = BTR_DEV;
+      fsType = "btrfs";
+      options = [ "subvol=@huskyos/@userdata/@steamapps" ];
+    };
 
   fileSystems."/etc/NetworkManager" =
     { device = BTR_DEV;
