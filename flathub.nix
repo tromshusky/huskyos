@@ -29,11 +29,13 @@
     export XDG_RUNTIME_DIR=/run/user/"$desktop_user_id"
     export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$desktop_user_id/bus
     toast="$runuser -u $desktop_user_name -- $notifysend"
-    notification_id=$($toast -p "Installing Flathub" "wait...");
-    $flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo &&
-    $toast -r $notification_id "Downloading Apps" "wait...";
+    notification_id=$($toast -p "Installing Flathub..." "Adding Remote");
+    $flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo;
+    $toast -r $notification_id -e "Installing Flathub..." "Giving Steam flatpak permissions to use /steamapps";
+    $flatpak override com.valvesoftware.Steam --filesystem=/steamapps;
+    $toast -r $notification_id "Installing Flathub..." "Downloading Apps";
     $flatpak install -y com.brave.Browser org.kde.dolphin com.mattjakeman.ExtensionManager net.mullvad.MullvadBrowser org.mozilla.Thunderbird &&
     touch $doneFile;
-    $toast -r $notification_id -e "Apps installed" "...done"
+    $toast -r $notification_id -e "...Flathub installed" "...done"
   '';
 }
