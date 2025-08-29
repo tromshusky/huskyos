@@ -34,7 +34,7 @@
     $toast -r $notification_id -e "Installing Flathub..." "Giving Steam flatpak permissions to use /steamapps";
     $flatpak override com.valvesoftware.Steam --filesystem=/steamapps;
     $toast -r $notification_id "Installing Flathub..." "Downloading Apps";
-    $flatpak install -y com.brave.Browser org.kde.dolphin com.mattjakeman.ExtensionManager net.mullvad.MullvadBrowser org.mozilla.Thunderbird &&
+    $flatpak install -y com.brave.Browser org.kde.dolphin com.mattjakeman.ExtensionManager net.mullvad.MullvadBrowser org.mozilla.Thunderbird org.pulseaudio.pavucontrol &&
     touch $doneFile;
     $toast -r $notification_id -e "...Flathub installed" "...done"
   '';
