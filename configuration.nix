@@ -9,7 +9,7 @@ in
       ./filesystems.nix
       ./flathub.nix
       ./gnome.nix
-      ./hardware-configuration-no-filesystems.nix
+      ../hardware-configuration-no-filesystems.nix
       speci1
     ];
 
