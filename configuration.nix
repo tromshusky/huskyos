@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  BACKUP = "${./.}";
+  BACKUP = "${./..}";
   speci1.specialisation.huskyos.configuration = import ./huskyos.nix;
 in
 {
@@ -23,7 +23,7 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-  users.users.root.hashedPassword = lib.fileContents ./RPW;
+  users.users.root.hashedPassword = lib.fileContents ../RPW;
   services.homed.enable = true;
   users.users.guest.uid = 1000;
   users.users.guest.password = "";

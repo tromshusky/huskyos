@@ -1,7 +1,7 @@
 { config, lib, pkgs, modulesPath, ... }:
 let
-  BTR_DEV = lib.fileContents ./BTR;
-  EFI_DEV = lib.fileContents ./EFI;
+  BTR_DEV = lib.fileContents ../BTR;
+  EFI_DEV = lib.fileContents ../EFI;
 in
 {
   fileSystems."/" =
