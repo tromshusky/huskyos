@@ -9,6 +9,7 @@
       ./flathub.nix
       ./gnome.nix
       ./grub.nix
+      ./hardware.nix
       ./huskyos.nix
       ./steam.nix
     ];
