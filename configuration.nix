@@ -4,12 +4,12 @@
 {
   imports =
     [
+      config.huskyos.hardware-configuration-no-filesystems
       ./auto-update.nix
       ./filesystems.nix
       ./flathub.nix
       ./gnome.nix
       ./grub.nix
-      ./hardware.nix
       ./huskyos.nix
       ./steam.nix
     ];
