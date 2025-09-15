@@ -26,7 +26,7 @@
         };
       nixosConfigurations."nixos" = nixpkgs1.lib.nixosSystem {
         modules = [
-          hardware-configuration-no-filesystems
+          # hardware-configuration-no-filesystems.nix
           ./configuration.nix
           {
             huskyos.btrfsDevice = "editme"; # /dev/sda2 for example
