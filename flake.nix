@@ -4,7 +4,12 @@
     { self, nixpkgs }:
     {
       grub =
-        { btrfs-device, efi-device, hardware-configuration-no-filesystems, this-flake }:
+        {
+          btrfs-device,
+          efi-device,
+          hardware-configuration-no-filesystems,
+          this-flake,
+        }:
         {
           nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
             modules = [
@@ -18,8 +23,16 @@
             ];
           };
         };
-      # if you want to use this flake to build the system, you have to set all the huskyos options by editing the files first
-      # trying to use this flake will lead to an error otherwise
-#      nixosConfigurations = {};
+      nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
+        modules = [
+          hardware-configuration-no-filesystems
+          ./configuration.nix
+          {
+            huskyos.btrfsDevice = "editme"; # /dev/sda2 for example
+            huskyos.efiDevice = "editme"; # /dev/sda1 for example
+            huskyos.flakeUri = ./flake.nix;
+          }
+        ];
+      };
     };
 }
