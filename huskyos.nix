@@ -6,7 +6,7 @@ let
   EFI_OPTION.type = lib.types.str;
   EFI_OPTION.description = "";
   EFI_OPTION.example = "/dev/sda1";
-  FLAKE_OPTION.type = lib.types.str;
+  FLAKE_OPTION.type = lib.types.path;
   HW_OPTION.type = lib.types.submodule {};
   HW_OPTION.default = {};
   STEAM_OPTION.type = lib.mkEnableOption "global steam apps";
