@@ -4,7 +4,7 @@
 {
   imports =
     [
-      config.huskyos.hardware-configuration-no-filesystems
+#      config.huskyos.hardware-configuration-no-filesystems # infinite recursion
       ./auto-update.nix
       ./filesystems.nix
       ./flathub.nix
