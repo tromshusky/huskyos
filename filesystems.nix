@@ -1,7 +1,7 @@
 { config, lib, pkgs, modulesPath, ... }:
 let
-  BTR_DEV = config.huskyos.btrfs_device;
-  EFI_DEV = config.huskyos.efi_device;
+  BTR_DEV = config.huskyos.btrfsDevice;
+  EFI_DEV = config.huskyos.efiDevice;
 in
 {
   fileSystems."/" =
