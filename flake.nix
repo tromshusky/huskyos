@@ -8,7 +8,7 @@
         {
           nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
             modules = [
-#              hardware-configuration-no-filesystems # lets try importing inside of configuraion.nix first
+              hardware-configuration-no-filesystems
               ./configuration.nix
               {
                 huskyos.btrfsDevice = btrfs-device;
