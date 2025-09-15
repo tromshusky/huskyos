@@ -4,7 +4,7 @@
     { self, nixpkgs }:
     {
       grub =
-        { btrfs-device, efi-device, hardware-configuration-no-filesystems }:
+        { btrfs-device, efi-device, hardware-configuration-no-filesystems, this-flake }:
         {
           nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
             modules = [
@@ -13,6 +13,7 @@
               {
                 huskyos.btrfsDevice = btrfs-device;
                 huskyos.efiDevice = efi-device;
+                huskyos.flakeUri = this-flake;
               }
             ];
           };
