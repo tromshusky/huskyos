@@ -1,11 +1,12 @@
 {
-  inputs.nixpkgs1.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   outputs =
-    { self, nixpkgs1 }:
+    { nixpkgs-unstable, ... }:
     {
       grub =
         {
-          nixpkgs ? nixpkgs1,
+          nixpkgs ? nixpkgs-unstable,
+          nix-extra-config ? {},
           btrfs-device,
           efi-device,
           hardware-configuration-no-filesystems,
@@ -21,12 +22,13 @@
                 huskyos.efiDevice = efi-device;
                 huskyos.flakeUri = this-flake;
               }
+              nix-extra-config
             ];
           };
         };
-      nixosConfigurations."nixos" = nixpkgs1.lib.nixosSystem {
+      nixosConfigurations."nixos" = nixpkgs-unstable.lib.nixosSystem {
         modules = [
-          # hardware-configuration-no-filesystems.nix
+          # ./hardware-configuration-no-filesystems.nix
           ./configuration.nix
           {
             huskyos.btrfsDevice = "editme"; # /dev/sda2 for example
