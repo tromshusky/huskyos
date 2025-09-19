@@ -28,35 +28,6 @@ in
       options = [ "subvol=@huskyos/@userdata" ];
     };
 
-  fileSystems."/root" =
-    { device = BTR_DEV;
-      fsType = "btrfs";
-      options = [ "subvol=@huskyos/@userdata/@root" ];
-    };
-
-  fileSystems."/var/lib" =
-    { device = BTR_DEV;
-      fsType = "btrfs";
-      options = [ "subvol=@huskyos/@userdata/var/@lib" ];
-    };
-
-  fileSystems."/home" =
-    { device = BTR_DEV;
-      fsType = "btrfs";
-      options = [ "subvol=@huskyos/@userdata/@home" ];
-    };
-  fileSystems."/steamapps" =
-    { device = BTR_DEV;
-      fsType = "btrfs";
-      options = [ "subvol=@huskyos/@userdata/@steamapps" ];
-    };
-
-  fileSystems."/etc/NetworkManager" =
-    { device = BTR_DEV;
-      fsType = "btrfs";
-      options = [ "subvol=@huskyos/@userdata/etc/@NetworkManager" ];
-    };
-
   fileSystems."/boot/efi" =
     { device = EFI_DEV;
       fsType = "vfat";
