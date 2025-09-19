@@ -11,6 +11,7 @@
       ./gnome.nix
       ./grub.nix
       ./huskyos.nix
+      ./user.nix
       ./steam.nix
     ];
 }
