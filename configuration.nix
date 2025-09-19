@@ -7,6 +7,7 @@
 #      config.huskyos.hardware-configuration-no-filesystems # infinite recursion
       ./auto-update.nix
       ./filesystems.nix
+      ./flakes.nix
       ./flathub.nix
       ./gnome.nix
       ./grub.nix
