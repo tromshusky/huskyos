@@ -35,7 +35,7 @@
             huskyos.btrfsDevice = "editme"; # /dev/sda2 for example
             huskyos.efiDevice = "editme"; # /dev/sda1 for example
             huskyos.flakeUri = ./flake.nix;
-            huskyos.hardwareUri = hardware-configuration-no-filesystems.nix;
+            huskyos.hardwareUri = ./hardware-configuration-no-filesystems.nix;
           }
         ];
       };
