@@ -12,7 +12,7 @@
       ./flathub.nix
       ./gnome.nix
       ./grub.nix
-      ./huskyos.nix
+      ./huskyos-options.nix
       ./user.nix
       ./steam.nix
     ];
