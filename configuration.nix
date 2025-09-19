@@ -6,6 +6,7 @@
     [
 #      config.huskyos.hardware-configuration-no-filesystems # infinite recursion
       ./auto-update.nix
+      ./bind-mounts.nix
       ./etc-nixos-backup.nix
       ./filesystems.nix
       ./flakes.nix
