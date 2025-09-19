@@ -1,4 +1,7 @@
 ```sh
+BTR=/dev/CHANGEME
+EFI=/dev/CHANGEME
+
 mount -t tmpfs tmpfs /mnt
 mkdir /mnt/boot /mnt/nix /mnt/userdata
 
