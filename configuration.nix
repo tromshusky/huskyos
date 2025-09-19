@@ -1,10 +1,8 @@
-{ config, lib, pkgs, ... }:
-#  True = lib.mkOverride 900 true;
-#  Frue = lib.mkOverride 900 false;
+{ ... }:
 {
   imports =
     [
-#      config.huskyos.hardware-configuration-no-filesystems # infinite recursion
+      ./auto-timezone.nix
       ./auto-update.nix
       ./bind-mounts.nix
       ./etc-nixos-backup.nix
