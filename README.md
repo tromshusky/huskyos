@@ -14,6 +14,9 @@ mkdir /mnt/boot/efi
 mount $EFI /mnt/boot/efi
 ```
 ```sh
+nixos-generate-config --show-hardware-config --no-filesystems > hardware-configuration-no-filesystems.nix
+```
+```sh
 nixos-install --flake .#nixos
 ```
 ```nix
