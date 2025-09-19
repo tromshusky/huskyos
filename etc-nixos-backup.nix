@@ -1,3 +1,3 @@
 { config, ... }:{
-  environment.etc."nixos/backup/flake.nix" = config.huskyos.flakeUri;
+  environment.etc."nixos/backup/flake.nix".source = config.huskyos.flakeUri;
 }
