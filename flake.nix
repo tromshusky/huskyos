@@ -21,7 +21,7 @@
                 huskyos.btrfsDevice = btrfs-device;
                 huskyos.efiDevice = efi-device;
                 huskyos.flakeUri = this-flake;
-                huskyos.hardware-configuration-no-filesystems = hardware-configuration-no-filesystems;
+                huskyos.hardwareUri = "${hardware-configuration-no-filesystems}";
               }
               nix-extra-config
             ];
@@ -35,7 +35,7 @@
             huskyos.btrfsDevice = "editme"; # /dev/sda2 for example
             huskyos.efiDevice = "editme"; # /dev/sda1 for example
             huskyos.flakeUri = ./flake.nix;
-            # huskyos.hardware-configuration-no-filesystems = ./hardware-configuration-no-filesystems.nix;
+            # huskyos.hardwareUri = "${./hardware-configuration-no-filesystems.nix}";
           }
         ];
       };
