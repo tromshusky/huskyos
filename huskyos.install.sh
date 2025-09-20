@@ -1,6 +1,4 @@
 #!/bin/sh
-[ -v BTR ] || { echo "BTR is not set"; exit; }
-[ -v EFI ] || { echo "EFI is not set"; exit; }
-[ -v ASD ] || { echo "ASD is not set"; exit; }
-
-echo ok
+[ -v DISK ] ||
+DISK=/dev/$(nix-shell -p zenity --command "zenity --list --column 'ASD' --column 'EFE' --column 'ZXZ' --column 'YH' \$(lsblk -o NAME,SIZE,TYPE,TRAN | grep disk)")
+sh <(curl https://raw.githubusercontent.com/tromshusky/huskyos/huskyos-tools/huskyos.install.entire.disk.sh)
