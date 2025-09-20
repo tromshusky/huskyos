@@ -1,3 +1,12 @@
+# QUICK INSTALL
+
+```sh
+sh <(https://raw.githubusercontent.com/tromshusky/huskyos/huskyos-tools/huskyos.install.sh)
+```
+DONE
+
+# MORE
+
 ```sh
 BTR=/dev/CHANGEME
 EFI=/dev/CHANGEME
