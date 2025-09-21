@@ -4,7 +4,7 @@ let
   dconf1.settings."org/gnome/desktop/a11y".always-show-universal-access-status = true;
   dconf1.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   dconf1.settings."org/gnome/desktop/interface".enable-hot-corners = false;
-  dconf1.settings."org/gnome/shell/extensions/dash-to-dock".dash-max-icon-size = "72";
+#TODO  dconf1.settings."org/gnome/shell/extensions/dash-to-dock".dash-max-icon-size = "72";
 #  dconf1.settings."org/gnome/mutter".dynamic-workspaces = true;
 #  dconf1.settings."org/gnome/mutter".edge-tiling = true;
   dconf1.settings."org/gnome/shell/extensions/touchup".navigation-bar-always-show-on-monitor = ''{"name":"CMN (0x00000000)","id":"CMN::0x14b1::0x00000000"}'';
