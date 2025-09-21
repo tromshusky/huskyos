@@ -6,7 +6,7 @@
       grub =
         {
           nixpkgs ? nixpkgs-unstable,
-          nix-extra-config ? {},
+          nixos-extra-config ? {},
           hashed-root-password,
           btrfs-device,
           efi-device,
@@ -26,7 +26,7 @@
                 huskyos.hashedRootPassword = if (builtins.pathExists hashed-root-password) && (builtins.readFileType hashed-root-password == "regular") then (builtins.head (builtins.split "\n" (builtins.readFile hashed-root-password))) else null;
   hashed-root-password;
               }
-              nix-extra-config
+              nixos-extra-config
             ];
           };
         };
