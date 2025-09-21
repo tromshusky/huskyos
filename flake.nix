@@ -7,7 +7,7 @@
         {
           nixpkgs ? nixpkgs-unstable,
           nix-extra-config ? {},
-          hashed-root-password ? null,
+          hashed-root-password,
           btrfs-device,
           efi-device,
           hardware-configuration-no-filesystems,
@@ -19,11 +19,12 @@
               hardware-configuration-no-filesystems
               ./configuration.nix
               {
-                huskyos.btrfsDevice = btrfs-device;
-                huskyos.efiDevice = efi-device;
+                huskyos.btrfsDevice = builtins.readFile btrfs-device;
+                huskyos.efiDevice = builtins.readFile efi-device;
                 huskyos.flakeUri = this-flake;
                 huskyos.hardwareUri = hardware-configuration-no-filesystems;
-                huskyos.hashedRootPassword = hashed-root-password;
+                huskyos.hashedRootPassword = if (builtins.pathExists hashed-root-password) && (builtins.readFileType hashed-root-password == "regular") then (builtins.head (builtins.split "\n" (builtins.readFile hashed-root-password))) else null;
+  hashed-root-password;
               }
               nix-extra-config
             ];
