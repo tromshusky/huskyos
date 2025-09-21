@@ -15,5 +15,5 @@ in
   options.huskyos.efiDevice = lib.mkOption EFI_OPTION;
   options.huskyos.flakeUri = lib.mkOption PATH_OPTION;
   options.huskyos.hardwareUri = lib.mkOption PATH_OPTION;
-  options.huskyos.hashed-root-password = lib.mkOption STR_OPTION;
+  options.huskyos.hashedRootPassword = lib.mkOption STR_OPTION;
 }
