@@ -7,6 +7,7 @@
         {
           nixpkgs ? nixpkgs-unstable,
           nix-extra-config ? {},
+          hashed-root-password ? null,
           btrfs-device,
           efi-device,
           hardware-configuration-no-filesystems,
@@ -22,6 +23,7 @@
                 huskyos.efiDevice = efi-device;
                 huskyos.flakeUri = this-flake;
                 huskyos.hardwareUri = hardware-configuration-no-filesystems;
+                huskyos.hashedRootPassword = hashed-root-password;
               }
               nix-extra-config
             ];
@@ -36,6 +38,7 @@
             huskyos.efiDevice = "editme"; # /dev/sda1 for example
             huskyos.flakeUri = ./flake.nix;
             huskyos.hardwareUri = ./hardware-configuration-no-filesystems.nix;
+            huskyos.hashedRootPassword = "rootpw123";
           }
         ];
       };
