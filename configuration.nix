@@ -14,6 +14,7 @@
       ./huskyos-options.nix
       ./user.nix
       ./plymouth.nix
+      ./root-pw.nix
       ./steam.nix
     ];
 }
