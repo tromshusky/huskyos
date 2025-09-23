@@ -5,7 +5,7 @@
       ./auto-timezone.nix
       ./auto-update.nix
       ./bind-mounts.nix
-      ./etc-nixos-backup.nix
+      ./etc-huskyos.nix
       ./filesystems.nix
       ./flakes.nix
       ./flathub.nix
