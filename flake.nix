@@ -21,7 +21,7 @@
               {
                 huskyos.btrfsDevice = builtins.readFile btrfs-device;
                 huskyos.efiDevice = builtins.readFile efi-device;
-                huskyos.flakeUri = this-flake;
+                huskyos.flakeFolder = this-flake;
                 huskyos.hardwareUri = hardware-configuration-no-filesystems;
                 huskyos.hashedRootPassword = if (builtins.pathExists hashed-root-password) && (builtins.readFileType hashed-root-password == "regular") then (builtins.head (builtins.split "\n" (builtins.readFile hashed-root-password))) else null;              }
               nixos-extra-config
@@ -35,7 +35,7 @@
           {
             huskyos.btrfsDevice = "editme"; # /dev/sda2 for example
             huskyos.efiDevice = "editme"; # /dev/sda1 for example
-            huskyos.flakeUri = ./flake.nix;
+            huskyos.flakeFolder = ./flake.nix;
             huskyos.hardwareUri = ./hardware-configuration-no-filesystems.nix;
             huskyos.hashedRootPassword = "rootpw123";
           }
