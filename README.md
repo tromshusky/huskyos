@@ -1,7 +1,7 @@
-# QUICK INSTALL
+# QUICK INSTALL (INTERACTIVE)
 
 ```sh
-sh <(curl https://raw.githubusercontent.com/tromshusky/huskyos/huskyos-tools/huskyos.install.sh)
+sh <(curl -L raw.github.com/tromshusky/huskyos/huskyos-tools/huskyos.install.sh)
 ```
 DONE
 
