@@ -8,17 +8,17 @@ let
 #  dconf1.settings."org/gnome/mutter".dynamic-workspaces = true;
 #  dconf1.settings."org/gnome/mutter".edge-tiling = true;
   dconf1.settings."org/gnome/shell/extensions/touchup".navigation-bar-always-show-on-monitor = ''{"name":"CMN (0x00000000)","id":"CMN::0x14b1::0x00000000"}'';
-  dconf1.settings."org/gnome/mutter".experimental-features = "['scale-monitor-framebuffer']";
+#  dconf1.settings."org/gnome/mutter".experimental-features = "['scale-monitor-framebuffer']";
   dconf1.settings."org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-type = "nothing";
   dconf1.settings."org/gnome/shell".enabled-extensions = [ "dash-to-dock@micxgx.gmail.com" "gsconnect@andyholmes.github.io" "touchup@mityax" ];
   dconf1.settings."org/gnome/shell".favorite-apps =  lib.splitString " " "com.brave.Browser.desktop org.gnome.Ptyxis.desktop net.mullvad.MullvadBrowser.desktop org.mozilla.Thunderbird.desktop org.gnome.Software.desktop";
 
 in
 {
-  services.xserver.desktopManager.gnome.extraGSettingsOverrides = ''
-    [org.gnome.mutter]
-    experimental-features=['scale-monitor-framebuffer']
-  '';
+#  services.xserver.desktopManager.gnome.extraGSettingsOverrides = ''
+#    [org.gnome.mutter]
+#    experimental-features=['scale-monitor-framebuffer']
+#  '';
   services.gnome.core-apps.enable = false;
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
