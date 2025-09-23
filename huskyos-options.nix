@@ -13,7 +13,6 @@ in
 {
   options.huskyos.btrfsDevice = lib.mkOption BTR_OPTION;
   options.huskyos.efiDevice = lib.mkOption EFI_OPTION;
-  options.huskyos.flakeUri = lib.mkOption PATH_OPTION;
   options.huskyos.flakeFolder = lib.mkOption PATH_OPTION;
   options.huskyos.hardwareUri = lib.mkOption PATH_OPTION;
   options.huskyos.hashedRootPassword = lib.mkOption STR_OPTION;
