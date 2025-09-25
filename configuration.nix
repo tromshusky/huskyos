@@ -11,6 +11,7 @@
       ./flathub.nix
       ./gnome.nix
       ./grub.nix
+      ./huskyos-tools.nix
       ./huskyos-options.nix
       ./user.nix
       ./plymouth.nix
