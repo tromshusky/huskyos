@@ -28,6 +28,7 @@
             ];
           };
         };
+
       nixosConfigurations."nixos" = nixpkgs-unstable.lib.nixosSystem {
         modules = [
           # ./hardware-configuration-no-filesystems.nix
@@ -41,5 +42,6 @@
           }
         ];
       };
+      
     };
 }
