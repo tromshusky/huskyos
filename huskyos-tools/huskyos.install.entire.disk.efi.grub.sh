@@ -52,5 +52,6 @@ curl https://raw.githubusercontent.com/tromshusky/huskyos/huskyos-flake/flake.ni
 printf $EFI > /mnt/etc/nixos/EFI
 printf $BTR > /mnt/etc/nixos/BTR
 [ -v HUSKYOS_ROOT_PW ] && mkpasswd -m SHA-512 "$HUSKYOS_ROOT_PW" > /mnt/etc/nixos/RPW
+[ -v HUSKYOS_KBD_LAYOUT ] && printf "$HUSKYOS_KBD_LAYOUT" > /mnt/etc/nixos/KBD
 
 nixos-install --no-root-password --flake /mnt/etc/nixos#nixos

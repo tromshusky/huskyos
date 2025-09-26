@@ -1,17 +1,76 @@
 #!/bin/sh
 PATH=$(nix-shell -p zenity --run "echo \$PATH")
+
 [ -v HUSKYOS_INSTALL_DISK ] ||
 export HUSKYOS_INSTALL_DISK=/dev/${
   zenity --list --column 'Device' --column 'Size' --column 'Disk' --column 'Type' ${
     lsblk -o NAME,SIZE,TYPE,TRAN | grep disk;
   } || { zenity --error; exit; };
 } || { zenity --error; exit; };
+
 if ! [ -v HUSKYOS_ROOT_PW ]; then
   zenity --question --text='Do you want to set a root password?' &&
   export HUSKYOS_ROOT_PW=${
     zenity --entry --title='Set Root Password' --text='Enter the new root password:' --hide-text || { zenity --error; exit; };
   };
 fi;
+
+[ -v HUSKYOS_KBD_LAYOUT ] || export HUSKYOS_KBD_LAYOUT=${
+  zenity --list \
+  --title="Select Keyboard Layout" \
+  --text="" \
+  --hide-column=1 \
+  --column="" \
+  --column="Language Name" \
+  "us" "English (US)" \
+  "ar" "Arabic" \
+  "am" "Amharic" \
+  "bn" "Bengali" \
+  "br" "Brazilian Portuguese" \
+  "bg" "Bulgarian" \
+  "ca" "Canadian" \
+  "ch" "Swiss German" \
+  "cz" "Czech" \
+  "de" "German" \
+  "dk" "Danish" \
+  "es" "Spanish" \
+  "et" "Estonian" \
+  "fi" "Finnish" \
+  "fr" "French" \
+  "gr" "Greek" \
+  "he" "Hebrew" \
+  "hr" "Croatian" \
+  "hu" "Hungarian" \
+  "is" "Icelandic" \
+  "it" "Italian" \
+  "ja" "Japanese" \
+  "jp" "Japanese" \
+  "ko" "Korean" \
+  "lt" "Lithuanian" \
+  "lv" "Latvian" \
+  "mk" "Macedonian" \
+  "ml" "Malayalam" \
+  "mt" "Maltese" \
+  "ne" "Nepali" \
+  "no" "Norwegian" \
+  "pl" "Polish" \
+  "ro" "Romanian" \
+  "ru" "Russian" \
+  "si" "Sinhalese" \
+  "sk" "Slovak" \
+  "sw" "Swahili" \
+  "ta" "Tamil" \
+  "te" "Telugu" \
+  "th" "Thai" \
+  "tl" "Tetum" \
+  "tr" "Turkish" \
+  "vi" "Vietnamese" \
+  "xh" "Xhosa" \
+  "yo" "Yoruba" \
+  "zu" "Zulu"
+};
+
+
 log_file=$(mktemp);
 {
   {
