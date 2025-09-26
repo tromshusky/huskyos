@@ -16,7 +16,7 @@ log_file=$(mktemp);
 {
   {
     #execute the script
-    script="https://github.com/tromshusky/huskyos/raw/huskyos-tools/huskyos.install.entire.disk.efi.grub.sh";
+    script="https://raw.github.com/tromshusky/huskyos/main/huskyos-tools/huskyos.install.entire.disk.efi.grub.sh";
     2>&1 sh <(curl -Ls "$script") || { echo "#ABORTED"; false; };
   } ||
   #print the logfile on an error message
