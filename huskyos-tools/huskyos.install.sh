@@ -79,10 +79,15 @@ log_file=$(mktemp);
   {
     #execute the script
     script="https://raw.github.com/tromshusky/huskyos/main/huskyos-tools/huskyos.install.entire.disk.efi.grub.sh";
-    2>&1 sh <(curl -Ls "$script") || { echo "#ABORTED"; false; };
-  } ||
-  #print the logfile on an error message
-  zenity --error --text "$(cat $log_file)";
+    2>&1 sh <(curl -Ls "$script");
+  } || {
+    #print the logfile on an error message
+    zenity --error --text "$(cat $log_file)";
+    #message to zenity --progress
+    echo "#ABORTED";
+    #exit with error to stop zenity --progress
+    false; 
+  };
 } |
 #pipe the script into the logfile
 tee --append $log_file |
