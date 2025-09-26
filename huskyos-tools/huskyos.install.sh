@@ -17,7 +17,7 @@ fi;
 
 [ -v HUSKYOS_KBD_LAYOUT ] || export HUSKYOS_KBD_LAYOUT=${
   zenity --list \
-  --title="Select Keyboard Layout" \
+  --title="Select your keyboard layout" \
   --text="" \
   --hide-column=1 \
   --column="" \
