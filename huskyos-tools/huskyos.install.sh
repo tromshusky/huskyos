@@ -92,4 +92,5 @@ log_file=$(mktemp);
 #pipe the script into the logfile
 tee --append $log_file |
 #wrap it all with a zenity progress
-zenity --progress --pulsate
+zenity --progress --pulsate;
+rm --force $log_file;
