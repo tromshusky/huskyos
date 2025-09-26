@@ -6,6 +6,7 @@
       grub =
         {
           nixos-extra-config ? {},
+          keyboard-layout ? "us",
           hashed-root-password,
           btrfs-device,
           efi-device,
@@ -22,6 +23,12 @@
                 huskyos.efiDevice = builtins.readFile efi-device;
                 huskyos.flakeFolder = this-flake;
                 huskyos.hardwareUri = hardware-configuration-no-filesystems;
+                huskyos.keyboardLayout = if
+                    (builtins.pathExists keyboard-layout) && 
+                    (builtins.readFileType keyboard-layout == "regular") then
+                    (builtins.head (builtins.split "\n" (builtins.readFile keyboard-layout)))
+                  else
+                    "us";
                 huskyos.hashedRootPassword = if (builtins.pathExists hashed-root-password) && (builtins.readFileType hashed-root-password == "regular") then (builtins.head (builtins.split "\n" (builtins.readFile hashed-root-password))) else null;              }
               nixos-extra-config
             ];
@@ -38,6 +45,7 @@
             huskyos.flakeFolder = ./flake.nix;
             huskyos.hardwareUri = ./hardware-configuration-no-filesystems.nix;
             huskyos.hashedRootPassword = "rootpw123";
+            huskyos.keyboardLayout = "us";
           }
         ];
       };

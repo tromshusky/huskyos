@@ -13,6 +13,7 @@
       ./grub.nix
       ./huskyos-tools.nix
       ./huskyos-options.nix
+      ./keyboard-layout.nix
       ./user.nix
       ./plymouth.nix
       ./root-pw.nix
