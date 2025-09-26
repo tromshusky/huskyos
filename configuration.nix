@@ -17,6 +17,7 @@
       ./user.nix
       ./plymouth.nix
       ./root-pw.nix
+      ./split-home.nix
       ./steam.nix
     ];
 }
