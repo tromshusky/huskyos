@@ -1,11 +1,10 @@
 {
-  inputs.nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   outputs =
-    { nixpkgs-unstable, ... }:
+    { nixpkgs, ... }:
     {
       grub =
         {
-          nixpkgs ? nixpkgs-unstable,
           nixos-extra-config ? {},
           hashed-root-password,
           btrfs-device,
@@ -29,7 +28,7 @@
           };
         };
 
-      nixosConfigurations."nixos" = nixpkgs-unstable.lib.nixosSystem {
+      nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
         modules = [
           # ./hardware-configuration-no-filesystems.nix
           ./configuration.nix
