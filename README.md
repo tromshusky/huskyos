@@ -1,7 +1,7 @@
 # QUICK INSTALL (INTERACTIVE)
 
 ```sh
-sh <(curl -L raw.github.com/tromshusky/huskyos/huskyos-tools/huskyos.install.sh)
+sh <(curl -L raw.github.com/tromshusky/huskyos/main/huskyos-tools/huskyos.install.sh)
 ```
 DONE
 
@@ -34,7 +34,7 @@ nixos-install --flake .#nixos
 ```nix
 # flake.nix
 {
-  inputs.huskyos.url = "github:tromshusky/huskyos/refactor";
+  inputs.huskyos.url = "github:tromshusky/huskyos";
   outputs = { huskyos, ... } : huskyos.grub { 
     efi-device = "/dev/nvme0n1p1";
     btrfs-device = "/dev/nvme0n1p2";
