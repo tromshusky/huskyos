@@ -1,7 +1,7 @@
 { pkgs, ... }:
 pkgs.stdenv.mkDerivation {
   pname = "huskyos-tools";
-  version = "1.0";
+  version = "0";
 
   src = "${./.}";
   phases = [ "installPhase" ]; # Removes all phases except installPhase
