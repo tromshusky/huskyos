@@ -11,6 +11,7 @@ pkgs.stdenv.mkDerivation {
     cp $src/huskyos.switch.sh $out/bin/huskyos-switch
     cp $src/huskyos.edit.sh $out/bin/huskyos-edit
     cp $src/huskyos.install.sh $out/bin/huskyos-install
+    cp $src/huskyos.info.sh $out/bin/huskyos-info
     chmod +x $out/bin/*
   '';
 }
