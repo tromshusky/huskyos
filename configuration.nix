@@ -19,6 +19,7 @@
       ./plymouth.nix
       ./root-pw.nix
       ./steam.nix
+      ./wallpaper.nix
     ];
 }
 
