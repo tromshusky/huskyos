@@ -3,7 +3,6 @@
   imports =
     [
       ./auto-timezone.nix
-      ./auto-update.nix
       ./bind-mounts.nix
       ./etc-huskyos.nix
       ./filesystems.nix
@@ -12,13 +11,14 @@
       ./gnome.nix
       ./grub.nix
       ./home-var-bindmount.nix
-      ./huskyos-tools.nix
       ./huskyos-options.nix
+      ./huskyos-tools.nix
       ./keyboard-layout.nix
-      ./user.nix
       ./plymouth.nix
       ./root-pw.nix
       ./steam.nix
+      ./updating.nix
+      ./user.nix
       ./wallpaper.nix
     ];
 }
