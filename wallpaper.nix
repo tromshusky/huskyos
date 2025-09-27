@@ -20,8 +20,8 @@ let
   puppy-photo-light.sha256 = "0xgqb9jjfx4b9vc4wikzshwlb5lj2mvqn0nhnxczsa2639f5458l";
   puppy-photo-light.url = "https://images.pexels.com/photos/3640877/pexels-photo-3640877.jpeg";
 
-  default-light = builtins.fetchUrl blue-artwork;
-  default-dark = builtins.fetchUrl blue-artwork;
+  default-light = builtins.fetchurl blue-artwork;
+  default-dark = builtins.fetchurl blue-artwork;
 
   dconf1.settings."org/gnome/desktop/background".picture-uri = "file://${default-light}";
   dconf1.settings."org/gnome/desktop/background".picture-uri-dark = "file://${default-dark}";
