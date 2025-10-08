@@ -8,7 +8,7 @@ KBD=$(cat /etc/huskyos/KBD)
 RPW_SET=$([ -f /etc/huskyos/RPW ] && echo yes || echo no)
 VERSION=$(grep '^VERSION=' /etc/os-release | cut -d '"' -f 2)
 
-LAST_UPDATE=${
+SYSTEM_AGE=${
   date_str=${
     grep '^BUILD_ID=' /etc/os-release | cut -d '"' -f 2 | cut -d '.' -f 3;
   };
@@ -28,10 +28,13 @@ LAST_UPDATE=${
 }
 
 
+
+
+
 zenity --forms \
 --text="asd" \
 --add-combo="Version" --combo-values="$VERSION" \
---add-combo="Last Update" --combo-values="$LAST_UPDATE" \
+--add-combo="System Age" --combo-values="$SYSTEM_AGE" \
 --add-combo="Root password set" --combo-values="$RPW_SET" \
 --add-combo="Efi partition" --combo-values="$EFI" \
 --add-combo="Btrfs partition" --combo-values="$BTR" \
