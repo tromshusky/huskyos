@@ -28,12 +28,18 @@ SYSTEM_AGE=${
 }
 
 
-
+LAST_UPDATE=${
+  systemd_str=${
+    systemctl status nixos-upgrade.service | grep "Active" | sed "s|Active:||"
+  };
+  echo "$systemd_str" | sed "s|failed .*|failed|" | sed "s|inactive (dead) since ||";
+}
 
 
 zenity --forms \
 --text="asd" \
 --add-combo="Version" --combo-values="$VERSION" \
+--add-combo="Last Update" --combo-values="$LAST_UPDATE" \
 --add-combo="System Age" --combo-values="$SYSTEM_AGE" \
 --add-combo="Root password set" --combo-values="$RPW_SET" \
 --add-combo="Efi partition" --combo-values="$EFI" \
