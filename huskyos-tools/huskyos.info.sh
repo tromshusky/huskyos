@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 PATH=$(nix-shell -p zenity --run "echo \$PATH")
 
 
