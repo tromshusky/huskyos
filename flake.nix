@@ -15,15 +15,19 @@
         }:
         let
 
-          contentsofFileMapElse =
-            fPath: mapContent: els:
+          fileThatExistsMapElse =
+            fPath: mapFile: els:
             if (builtins.pathExists fPath) && (builtins.readFileType fPath == "regular") then
-              (mapContent (builtins.readFile fPath))
+              (mapFile fPath)
             else
               els;
+          contentsOfFileMapElse =
+            fPath: mapContent: els:
+            (fileThatExistsMapElse fPath (fP: (mapContent (builtins.readFile fP))) els);
+
           firstLine = text: (builtins.head (builtins.split "\n" (builtins.readFile text)));
 
-          extraConfig = contentsofFileMapElse nixos-extra-config (_: _) { };
+          extraConfig = fileThatExistsMapElse nixos-extra-config (_: _) { };
         in
         {
           nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
