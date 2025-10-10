@@ -5,7 +5,7 @@
     {
       grub =
         {
-          nixos-extra-config ? {},
+          nixos-extra-config ? { },
           keyboard-layout ? "us",
           hashed-root-password,
           btrfs-device,
@@ -13,6 +13,18 @@
           hardware-configuration-no-filesystems,
           this-flake,
         }:
+        let
+
+          contentsofFileMapElse =
+            fPath: mapContent: els:
+            if (builtins.pathExists fPath) && (builtins.readFileType fPath == "regular") then
+              (mapContent (builtins.readFile fPath))
+            else
+              els;
+          firstLine = text: (builtins.head (builtins.split "\n" (builtins.readFile text)));
+
+          extraConfig = contentsofFileMapElse nixos-extra-config (_: _) { };
+        in
         {
           nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
             modules = [
@@ -23,20 +35,17 @@
                 huskyos.efiDevice = builtins.readFile efi-device;
                 huskyos.flakeFolder = this-flake;
                 huskyos.hardwareUri = hardware-configuration-no-filesystems;
-                huskyos.keyboardLayout = if
-                    (builtins.pathExists keyboard-layout) && 
-                    (builtins.readFileType keyboard-layout == "regular") then
-                    (builtins.head (builtins.split "\n" (builtins.readFile keyboard-layout)))
-                  else
-                    "us";
-                huskyos.hashedRootPassword = if (builtins.pathExists hashed-root-password) && (builtins.readFileType hashed-root-password == "regular") then (builtins.head (builtins.split "\n" (builtins.readFile hashed-root-password))) else null;              }
-              nixos-extra-config
+                huskyos.keyboardLayout = contentsofFileMapElse keyboard-layout firstLine "us";
+                huskyos.hashedRootPassword = contentsofFileMapElse hashed-root-password firstLine null;
+              }
+              extraConfig
             ];
           };
         };
 
       nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
         modules = [
+          ## uncomment to use (remove #):
           # ./hardware-configuration-no-filesystems.nix
           ./configuration.nix
           {
@@ -49,6 +58,5 @@
           }
         ];
       };
-      
     };
 }
