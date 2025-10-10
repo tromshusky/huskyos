@@ -7,6 +7,7 @@ let
   EFI_OPTION.description = "";
   EFI_OPTION.example = "/dev/sda1";
   STR_OPTION.type = lib.types.str;
+  NULL_OR_STR_OPTION.type = lib.types.nullOr lib.types.str;
   PATH_OPTION.type = lib.types.path;
   STEAM_OPTION.type = lib.mkEnableOption "global steam apps";
 in
@@ -15,6 +16,6 @@ in
   options.huskyos.efiDevice = lib.mkOption EFI_OPTION;
   options.huskyos.flakeFolder = lib.mkOption PATH_OPTION;
   options.huskyos.hardwareUri = lib.mkOption PATH_OPTION;
-  options.huskyos.hashedRootPassword = lib.mkOption STR_OPTION;
+  options.huskyos.hashedRootPassword = lib.mkOption NULL_OR_STR_OPTION;
   options.huskyos.keyboardLayout = lib.mkOption STR_OPTION;
 }
