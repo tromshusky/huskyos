@@ -39,8 +39,8 @@
                 huskyos.efiDevice = builtins.readFile efi-device;
                 huskyos.flakeFolder = this-flake;
                 huskyos.hardwareUri = hardware-configuration-no-filesystems;
-                huskyos.keyboardLayout = contentsofFileMapElse keyboard-layout firstLine "us";
-                huskyos.hashedRootPassword = contentsofFileMapElse hashed-root-password firstLine null;
+                huskyos.keyboardLayout = contentsOfFileMapElse keyboard-layout firstLine "us";
+                huskyos.hashedRootPassword = contentsOfFileMapElse hashed-root-password firstLine null;
               }
               extraConfig
             ];
