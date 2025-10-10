@@ -21,9 +21,7 @@
               (mapFile fPath)
             else
               els;
-          contentsOfFileMapElse =
-            fPath: mapContent: els:
-            (fileThatExistsMapElse fPath (fP: (mapContent (builtins.readFile fP))) els);
+          firstLineOfFileElse = fPath: els: (fileThatExistsMapElse fPath firstLine els);
 
           firstLine = text: (builtins.head (builtins.split "\n" (builtins.readFile text)));
 
@@ -39,8 +37,8 @@
                 huskyos.efiDevice = builtins.readFile efi-device;
                 huskyos.flakeFolder = this-flake;
                 huskyos.hardwareUri = hardware-configuration-no-filesystems;
-                huskyos.keyboardLayout = contentsOfFileMapElse keyboard-layout firstLine "us";
-                huskyos.hashedRootPassword = contentsOfFileMapElse hashed-root-password firstLine null;
+                huskyos.keyboardLayout = firstLineOfFileElse keyboard-layout "us";
+                huskyos.hashedRootPassword = firstLineOfFileElse hashed-root-password null;
               }
               extraConfig
             ];
