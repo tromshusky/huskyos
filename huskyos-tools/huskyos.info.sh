@@ -32,7 +32,7 @@ LAST_UPDATE=${
   systemd_str=${
     systemctl status nixos-upgrade.service | grep "Active" | sed "s|Active:||"
   };
-  echo "$systemd_str" | sed "s|failed .*|failed|" | sed "s|inactive (dead) since ||";
+  echo "$systemd_str" | sed "s|failed .*|failed|" | sed "s|inactive (dead) since ||" | sed "s|inactive (dead)| not updated during this session |";
 }
 
 
