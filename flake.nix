@@ -7,7 +7,7 @@
         {
           nixos-extra-config ? { },
           keyboard-layout ? "us",
-          hashed-root-password,
+          hashed-root-password ? null,
           btrfs-device,
           efi-device,
           hardware-configuration-no-filesystems,
