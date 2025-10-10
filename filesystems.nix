@@ -7,7 +7,7 @@ in
   fileSystems."/" =
     { device = "tmpfs";
       fsType = "tmpfs";
-      options = [ "size=16G" ];
+      options = [ "size=16G" "mode=0755" ];
     };
 
   fileSystems."/nix" =
