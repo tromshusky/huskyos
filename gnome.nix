@@ -4,7 +4,7 @@ let
   dconf1.settings."org/gnome/desktop/a11y".always-show-universal-access-status = true;
   dconf1.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   dconf1.settings."org/gnome/desktop/interface".enable-hot-corners = false;
-  dconf1.settings."org/gnome/desktop/wm/preferences".button-layout "minimize:";
+  dconf1.settings."org/gnome/desktop/wm/preferences".button-layout = "minimize:";
   dconf1.settings."org/gnome/shell/extensions/dash-to-dock".dash-max-icon-size = lib.gvariant.mkInt32 72;
 #  dconf1.settings."org/gnome/mutter".dynamic-workspaces = true;
 #  dconf1.settings."org/gnome/mutter".edge-tiling = true;
