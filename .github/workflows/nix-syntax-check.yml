@@ -3,23 +3,26 @@ name: Nix Syntax Check
 on: [push, pull_request]
 
 jobs:
-  check-syntax:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    check-syntax:
+        runs-on: ubuntu-latest
 
-      - name: Install Nix
-        run: |
-          sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon
-          
+        steps:
+            -   name: Install Nix
+                run: |
+                    sh <(curl -L https://nixos.org/nix/install)
 
-      - name: something
-        run: |
-          nix --version && \
-          nix-env --version && \
-          nix-env -iA nixpkgs.nixfmt-rfc-style && \
-          for file in $(find . -name "*.nix"); do
-            nixfmt $file
-          done
+            -   name: Install Nixfmt
+                run: |
+                    . /home/runner/.nix-profile/etc/profile.d/nix.sh && \
+                    nix --version && \
+                    nix-env --version && \
+                    nix-env -iA nixpkgs.nixfmt-rfc-style && \
+
+            -   name: Checkout code
+                uses: actions/checkout@v2
+                
+            -   name: Run Nixfmt
+                run: |
+                    for file in $(find . -name "*.nix"); do
+                        nixfmt $file
+                    done
