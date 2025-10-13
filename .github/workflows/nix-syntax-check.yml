@@ -23,6 +23,7 @@ jobs:
 
             -   name: Run Nixfmt
                 run: |
+                    . /home/runner/.nix-profile/etc/profile.d/nix.sh && \
                     for file in $(find . -name "*.nix"); do
                         nixfmt $file
                     done
