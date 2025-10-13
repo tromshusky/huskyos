@@ -12,7 +12,7 @@ jobs:
 
       - name: Install Nix
         run: |
-          sh <(curl -L https://nixos.org/nix/install)
+          sh <(curl -L https://nixos.org/nix/install) &&
           . /home/runner/.nix-profile/etc/profile.d/nix.sh
 
       - name: Check Nix syntax
