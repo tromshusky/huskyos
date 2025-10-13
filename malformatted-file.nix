@@ -4,5 +4,5 @@ let
     TO_BREAK = TH "E GITHUB ACTION WORKFLOW";
 in
 {
-  volvoplsfix = TO_BREAK;
+  volvoplsfix 1 = TO_BREAK;
 }
