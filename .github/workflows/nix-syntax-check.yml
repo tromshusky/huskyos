@@ -16,11 +16,11 @@ jobs:
                     . /home/runner/.nix-profile/etc/profile.d/nix.sh && \
                     nix --version && \
                     nix-env --version && \
-                    nix-env -iA nixpkgs.nixfmt-rfc-style && \
+                    nix-env -iA nixpkgs.nixfmt-rfc-style
 
             -   name: Checkout code
                 uses: actions/checkout@v2
-                
+
             -   name: Run Nixfmt
                 run: |
                     for file in $(find . -name "*.nix"); do
