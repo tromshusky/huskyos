@@ -15,7 +15,12 @@ jobs:
           sh <(curl -L https://nixos.org/nix/install) && \
           . /home/runner/.nix-profile/etc/profile.d/nix.sh && \
           nix --version && \
-          nix-instantiate --version && \
+          nix-env --version && \
+          nix-env -iA nixpkgs.nixfmt-rfc-style && \
           for file in $(find . -name "*.nix"); do
-            nix-instantiate $file
+            nixfmt $file
           done
+
+      - name: something
+        run: |
+          nix --version || true
