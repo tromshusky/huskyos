@@ -5,9 +5,15 @@ on: [push, pull_request]
 jobs:
   check-syntax:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Install Nix
+        run: |
+          sh <(curl -L https://nixos.org/nix/install)
+          . /home/runner/.nix-profile/etc/profile.d/nix.sh
 
       - name: Check Nix syntax
         run: |
