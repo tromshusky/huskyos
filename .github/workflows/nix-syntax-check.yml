@@ -1,0 +1,16 @@
+name: Nix Syntax Check
+
+on: [push, pull_request]
+
+jobs:
+  check-syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check Nix syntax
+        run: |
+          for file in $(find . -name "*.nix"); do
+            nix-instantiate $file
+          done
