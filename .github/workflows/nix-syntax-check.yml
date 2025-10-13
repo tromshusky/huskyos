@@ -12,10 +12,10 @@ jobs:
 
       - name: Install Nix
         run: |
-          sh <(curl -L https://nixos.org/nix/install) && . /home/runner/.nix-profile/etc/profile.d/nix.sh
-
-      - name: Check Nix syntax
-        run: |
+          sh <(curl -L https://nixos.org/nix/install) && \
+          . /home/runner/.nix-profile/etc/profile.d/nix.sh && \
+          nix --version && \
+          nix-instantiate --version && \
           for file in $(find . -name "*.nix"); do
             nix-instantiate $file
           done
