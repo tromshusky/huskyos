@@ -12,7 +12,7 @@ let
   STEAM_OPTION.type = lib.mkEnableOption "global steam apps";
   
   # see https://github.com/NixOS/nixpkgs/blob/nixos-25.05/nixos/modules/config/users-groups.nix#L355
-  HASHED_PW_OPTION.type = lib.types.nullOr (lib.passwdEntry lib.types.str);
+  HASHED_PW_OPTION.type = lib.types.nullOr (lib.types.passwdEntry lib.types.str);
 in
 {
   options.huskyos.btrfsDevice = lib.mkOption BTR_OPTION;
