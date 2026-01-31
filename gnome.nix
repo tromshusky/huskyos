@@ -16,13 +16,13 @@ let
 
 in
 {
-  services.xserver.desktopManager.gnome.extraGSettingsOverrides = ''
+  services.desktopManager.gnome.extraGSettingsOverrides = ''
     [org.gnome.mutter]
     experimental-features=['scale-monitor-framebuffer']
   '';
   services.gnome.core-apps.enable = false;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 #  services.xserver.enable = true;
 #  services.xserver.excludePackages = [ pkgs.xterm ];
   environment.gnome.excludePackages = [ pkgs.gnome-tour ];
