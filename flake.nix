@@ -6,8 +6,8 @@
       grub =
         {
           nixos-extra-config ? null,
-          keyboard-layout ? null,
-          hashed-root-password ? null,
+          keyboard-layout ? ${this-flake}/KBD,
+          hashed-root-password ? ${this-flake}/RPW,
           btrfs-device ? "${this-flake}/BTR",
           efi-device ? "${this-flake}/EFI",
           hardware-configuration-no-filesystems ? "${this-flake}/hardware-configuration-no-filesystems.nix",
