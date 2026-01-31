@@ -22,6 +22,7 @@ cond_root || exit 1
 
 # variables
 
+PART_SUFFIX=$([[ $HUSKYOS_INSTALL_DISK =~ [0-9]$ ]] && echo p)
 
 # execution
 while read dev mp rest; do
@@ -38,8 +39,8 @@ done < /proc/self/mounts
 parted $HUSKYOS_INSTALL_DISK --script mklabel gpt
 parted $HUSKYOS_INSTALL_DISK --script mkpart EFI fat32 0% 4GiB set 1 esp on mkpart BTR btrfs 4GiB 100%
 
-EFI=/dev/disk/by-uuid/$(lsblk -ro UUID $HUSKYOS_INSTALL_DISK | sed -n 3p)
-BTR=/dev/disk/by-uuid/$(lsblk -ro UUID $HUSKYOS_INSTALL_DISK | sed -n 4p)
+EFI=${HUSKYOS_INSTALL_DISK}${PART_SUFFIX}1
+BTR=${HUSKYOS_INSTALL_DISK}${PART_SUFFIX}2
 
 mkfs.fat -F 32 $EFI
 mkfs.btrfs -q -f $BTR
