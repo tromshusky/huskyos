@@ -4,7 +4,7 @@ PATH=$(nix-shell -p zenity --run "echo \$PATH")
 [ -v HUSKYOS_INSTALL_DISK ] ||
 export HUSKYOS_INSTALL_DISK=/dev/${
   zenity --list --column 'Device' --column 'Size' --column 'Disk' --column 'Type' ${
-    lsblk -o NAME,SIZE,TYPE,TRAN | awk '$3=="disk" { if ($4=="") $4="N/A"; printf "\"%s\" \"%s\" \"%s\" \"%s\" ", $1, $2, $3, $4 }';
+    lsblk -o NAME,SIZE,TYPE,TRAN | awk '$3=="disk" { if ($4=="") $4="N/A"; print $1, $2, $3, $4 }';
   } || { zenity --error; exit; };
 } || { zenity --error; exit; };
 
