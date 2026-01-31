@@ -5,9 +5,9 @@
     {
       grub =
         {
-          nixos-extra-config ? "/dev/null/config.nix",
-          keyboard-layout ? "/dev/null/KBD",
-          hashed-root-password ? "/dev/null/RPW",
+          nixos-extra-config ? null,
+          keyboard-layout ? "${this-flake}/KBD",
+          hashed-root-password ? "${this-flake}/RPW",
           btrfs-device ? "${this-flake}/BTR",
           efi-device ? "${this-flake}/EFI",
           hardware-configuration-no-filesystems ? "${this-flake}/hardware-configuration-no-filesystems.nix",
@@ -17,7 +17,7 @@
 
           fileThatExistsMapElse =
             fPath: mapFile: els:
-            if (builtins.pathExists fPath) && (builtins.readFileType fPath == "regular") then
+            if (builtins.isPath fPath) && (builtins.pathExists fPath) && (builtins.readFileType fPath == "regular") then
               (mapFile fPath)
             else
               els;
@@ -25,7 +25,6 @@
 
           firstLine = text: (builtins.head (builtins.split "\n" (builtins.readFile text)));
 
-          extraConfig = fileThatExistsMapElse nixos-extra-config (_: _) { };
         in
         {
           nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
@@ -40,7 +39,7 @@
                 huskyos.keyboardLayout = firstLineOfFileElse keyboard-layout "us";
                 huskyos.hashedRootPassword = firstLineOfFileElse hashed-root-password null;
               }
-              extraConfig
+              (fileThatExistsMapElse nixos-extra-config (_: _) { })
             ];
           };
         };
