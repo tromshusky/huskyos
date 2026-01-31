@@ -5,12 +5,12 @@
     {
       grub =
         {
-          nixos-extra-config ? { },
-          keyboard-layout ? "us",
-          hashed-root-password ? null,
-          btrfs-device,
-          efi-device,
-          hardware-configuration-no-filesystems,
+          nixos-extra-config ? "/dev/null/config.nix",
+          keyboard-layout ? "/dev/null/KBD",
+          hashed-root-password ? "/dev/null/RPW",
+          btrfs-device ? "${this-flake}/BTR",
+          efi-device ? "${this-flake}/EFI",
+          hardware-configuration-no-filesystems ? "${this-flake}/hardware-configuration-no-filesystems.nix",
           this-flake,
         }:
         let
