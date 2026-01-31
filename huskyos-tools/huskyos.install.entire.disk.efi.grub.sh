@@ -25,6 +25,16 @@ cond_root || exit 1
 PART_SUFFIX=$([[ $HUSKYOS_INSTALL_DISK =~ [0-9]$ ]] && echo p)
 
 # execution
+while read dev mp rest; do
+    case "$dev" in
+        "$HUSKYOS_INSTALL_DISK"*)
+            umount -q "$mp" || {
+                echo "Error: Failed to unmount $mp with $dev" >&2
+                exit 1
+            }
+            ;;
+    esac
+done < /proc/self/mounts
 
 parted $HUSKYOS_INSTALL_DISK --script mklabel gpt
 parted $HUSKYOS_INSTALL_DISK --script mkpart EFI fat32 0% 4GiB set 1 esp on mkpart BTR btrfs 4GiB 100%
