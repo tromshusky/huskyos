@@ -9,6 +9,6 @@
     keyboard-layout = ./KBD;
     this-flake = "${./.}";
     hardware-configuration-no-filesystems = ./hardware-configuration-no-filesystems.nix;
-#    nixos-extra-config = ./config.nix;
+    nixos-extra-config = ./config.nix;
   };
 }
