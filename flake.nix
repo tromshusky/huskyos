@@ -41,7 +41,7 @@
                 huskyos.keyboardLayout = firstLineOfFileElse keyboard-layout "us";
                 huskyos.hashedRootPassword = firstLineOfFileElse hashed-root-password null;
               }
-              (fileThatExistsMapElse nixos-extra-config (_: _) (if (extraConfigIsAttrs) then nixos-extra-config) else {})
+              (fileThatExistsMapElse nixos-extra-config (_: _) (if (extraConfigIsAttrs) then nixos-extra-config else {}))
             ];
           };
         };
