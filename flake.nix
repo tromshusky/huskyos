@@ -25,6 +25,8 @@
 
           firstLine = text: (builtins.head (builtins.split "\n" (builtins.readFile text)));
 
+          extraConfigIsAttrs = (builtins.isAttrs nixos-extra-config)
+
         in
         {
           nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
@@ -39,7 +41,7 @@
                 huskyos.keyboardLayout = firstLineOfFileElse keyboard-layout "us";
                 huskyos.hashedRootPassword = firstLineOfFileElse hashed-root-password null;
               }
-              (fileThatExistsMapElse nixos-extra-config (_: _) { })
+              (fileThatExistsMapElse nixos-extra-config (_: _) (if (extraConfigIsAttrs) then nixos-extra-config) else {})
             ];
           };
         };
