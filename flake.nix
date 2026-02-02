@@ -21,11 +21,14 @@
               (mapFile fPath)
             else
               els;
+
           firstLineOfFileElse = fPath: els: (fileThatExistsMapElse fPath firstLine els);
 
           firstLine = text: (builtins.head (builtins.split "\n" (builtins.readFile text)));
 
-          extraConfigIsAttrs = (builtins.isAttrs nixos-extra-config)
+          extraConfigAsAttrs = (if (builtins.isAttrs nixos-extra-config) then nixos-extra-config else {});
+
+          extraConfig = (fileThatExistsMapElse nixos-extra-config (_: _) extraConfigAsAttrs);
 
         in
         {
@@ -41,7 +44,7 @@
                 huskyos.keyboardLayout = firstLineOfFileElse keyboard-layout "us";
                 huskyos.hashedRootPassword = firstLineOfFileElse hashed-root-password null;
               }
-              (fileThatExistsMapElse nixos-extra-config (_: _) (if (extraConfigIsAttrs) then nixos-extra-config else {}))
+              extraConfig
             ];
           };
         };
