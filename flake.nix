@@ -3,17 +3,15 @@
   outputs =
     { nixpkgs, ... }:
     {
-      grub =
-        {
-          nixos-extra-config ? "/dev/null/config.nix",
-          keyboard-layout ? "${this-flake}/KBD",
-          hashed-root-password ? "${this-flake}/RPW",
-          btrfs-device ? "${this-flake}/BTR",
-          efi-device ? "${this-flake}/EFI",
-          hardware-configuration-no-filesystems ? "${this-flake}/hardware-configuration-no-filesystems.nix",
-          this-flake,
-        }:
+      grub = myFlake:
         let
+
+          keyboard-layout = "${myFlake.outPath}/KBD";
+          hashed-root-password = "${myFlake.outPath}/RPW";
+          btrfs-device = "${myFlake.outPath}/BTR";
+          efi-device = "${myFlake.outPath}/EFI";
+          hardware-configuration-no-filesystems = "${myFlake.outPath}/hardware-configuration-no-filesystems.nix";
+          extra-config = fileThatExistsMapElse "${myFlake.outPath}/config.nix" (_ : _) {};
 
           fileThatExistsMapElse =
             fPath: mapFile: els:
@@ -21,9 +19,11 @@
               (mapFile fPath)
             else
               els;
+
           firstLineOfFileElse = fPath: els: (fileThatExistsMapElse fPath firstLine els);
 
           firstLine = text: (builtins.head (builtins.split "\n" (builtins.readFile text)));
+
 
         in
         {
@@ -34,12 +34,12 @@
               {
                 huskyos.btrfsDevice = builtins.readFile btrfs-device;
                 huskyos.efiDevice = builtins.readFile efi-device;
-                huskyos.flakeFolder = this-flake;
+                huskyos.flakeFolder = myFlake.outPath;
                 huskyos.hardwareUri = hardware-configuration-no-filesystems;
                 huskyos.keyboardLayout = firstLineOfFileElse keyboard-layout "us";
                 huskyos.hashedRootPassword = firstLineOfFileElse hashed-root-password null;
               }
-              (fileThatExistsMapElse nixos-extra-config (_: _) { })
+              extra-config
             ];
           };
         };
