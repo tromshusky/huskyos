@@ -39,7 +39,7 @@
                 huskyos.keyboardLayout = firstLineOfFileElse keyboard-layout "us";
                 huskyos.hashedRootPassword = firstLineOfFileElse hashed-root-password null;
               }
-              extraConfig
+              extra-config
             ];
           };
         };
