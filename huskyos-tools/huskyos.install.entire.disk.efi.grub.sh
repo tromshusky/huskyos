@@ -61,6 +61,7 @@ mount $EFI /mnt/boot/efi
 
 nixos-generate-config --show-hardware-config --no-filesystems > /mnt/etc/nixos/hardware-configuration-no-filesystems.nix
 curl https://raw.githubusercontent.com/tromshusky/huskyos/huskyos-flake/flake.nix > /mnt/etc/nixos/flake.nix
+printf grub > /mnt/etc/nixos/EDITION
 printf $EFI > /mnt/etc/nixos/EFI
 printf $BTR > /mnt/etc/nixos/BTR
 [ -v HUSKYOS_ROOT_PW ] && mkpasswd -m SHA-512 "$HUSKYOS_ROOT_PW" > /mnt/etc/nixos/RPW
