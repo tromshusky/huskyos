@@ -3,15 +3,16 @@
   outputs =
     { nixpkgs, ... }:
     {
-      grub = myFlake:
+      withSelf =
+        selfArg:
         let
-
-          keyboard-layout = "${myFlake.outPath}/KBD";
-          hashed-root-password = "${myFlake.outPath}/RPW";
-          btrfs-device = "${myFlake.outPath}/BTR";
-          efi-device = "${myFlake.outPath}/EFI";
-          hardware-configuration-no-filesystems = "${myFlake.outPath}/hardware-configuration-no-filesystems.nix";
-          extra-config = fileThatExistsMapElse "${myFlake.outPath}/config.nix" (_ : _) {};
+          base = "${selfArg.outPath}/BASE";
+          keyboard-layout = "${selfArg.outPath}/KBD";
+          hashed-root-password = "${selfArg.outPath}/RPW";
+          btrfs-device = "${selfArg.outPath}/BTR";
+          efi-device = "${selfArg.outPath}/EFI";
+          hardware-configuration-no-filesystems = "${selfArg.outPath}/hardware-configuration-no-filesystems.nix";
+          extra-config = fileThatExistsMapElse "${selfArg.outPath}/config.nix" (_: _) { };
 
           fileThatExistsMapElse =
             fPath: mapFile: els:
@@ -19,22 +20,17 @@
               (mapFile fPath)
             else
               els;
-
           firstLineOfFileElse = fPath: els: (fileThatExistsMapElse fPath firstLine els);
-
           firstLine = text: (builtins.head (builtins.split "\n" (builtins.readFile text)));
 
-
-        in
-        {
-          nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
+          buildArg = {
             modules = [
               hardware-configuration-no-filesystems
               ./configuration.nix
               {
                 huskyos.btrfsDevice = builtins.readFile btrfs-device;
                 huskyos.efiDevice = builtins.readFile efi-device;
-                huskyos.flakeFolder = myFlake.outPath;
+                huskyos.flakeFolder = selfArg.outPath;
                 huskyos.hardwareUri = hardware-configuration-no-filesystems;
                 huskyos.keyboardLayout = firstLineOfFileElse keyboard-layout "us";
                 huskyos.hashedRootPassword = firstLineOfFileElse hashed-root-password null;
@@ -42,22 +38,9 @@
               extra-config
             ];
           };
+        in
+        {
+          nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem buildArg;
         };
-
-      nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
-        modules = [
-          ## uncomment to use (remove #):
-          # ./hardware-configuration-no-filesystems.nix
-          ./configuration.nix
-          {
-            huskyos.btrfsDevice = "editme"; # /dev/sda2 for example
-            huskyos.efiDevice = "editme"; # /dev/sda1 for example
-            huskyos.flakeFolder = ./flake.nix;
-            huskyos.hardwareUri = ./hardware-configuration-no-filesystems.nix;
-            huskyos.hashedRootPassword = "rootpw123";
-            huskyos.keyboardLayout = "us";
-          }
-        ];
-      };
     };
 }
