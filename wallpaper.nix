@@ -28,7 +28,7 @@ let
 
 in
 {
-  services.xserver.desktopManager.gnome.extraGSettingsOverrides = ''
+  services.desktopManager.gnome.extraGSettingsOverrides = ''
     [org/gnome/desktop/background]
     picture-uri='file://${default-light}'
     picture-uri-dark='file://${default-dark}'
