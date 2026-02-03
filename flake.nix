@@ -4,15 +4,15 @@
     { nixpkgs, ... }:
     {
       withSelf =
-        { outPath, ... }:
+        selfArg:
         let
-          base = "${outPath}/BASE";
-          keyboard-layout = "${outPath}/KBD";
-          hashed-root-password = "${outPath}/RPW";
-          btrfs-device = "${outPath}/BTR";
-          efi-device = "${outPath}/EFI";
-          hardware-configuration-no-filesystems = "${outPath}/hardware-configuration-no-filesystems.nix";
-          extra-config = fileThatExistsMapElse "${outPath}/config.nix" (_: _) { };
+          base = "${selfArg.outPath}/BASE";
+          keyboard-layout = "${selfArg.outPath}/KBD";
+          hashed-root-password = "${selfArg.outPath}/RPW";
+          btrfs-device = "${selfArg.outPath}/BTR";
+          efi-device = "${selfArg.outPath}/EFI";
+          hardware-configuration-no-filesystems = "${selfArg.outPath}/hardware-configuration-no-filesystems.nix";
+          extra-config = fileThatExistsMapElse "${selfArg.outPath}/config.nix" (_: _) { };
 
           fileThatExistsMapElse =
             fPath: mapFile: els:
@@ -30,7 +30,7 @@
               {
                 huskyos.btrfsDevice = builtins.readFile btrfs-device;
                 huskyos.efiDevice = builtins.readFile efi-device;
-                huskyos.flakeFolder = outPath;
+                huskyos.flakeFolder = selfArg.outPath;
                 huskyos.hardwareUri = hardware-configuration-no-filesystems;
                 huskyos.keyboardLayout = firstLineOfFileElse keyboard-layout "us";
                 huskyos.hashedRootPassword = firstLineOfFileElse hashed-root-password null;
