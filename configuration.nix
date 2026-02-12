@@ -4,6 +4,8 @@
     [
       ./auto-timezone.nix
       ./bind-mounts.nix
+      ./cosmic.nix
+      ./cosmic-login.nix
       ./etc-huskyos.nix
       ./filesystems.nix
       ./flakes.nix
