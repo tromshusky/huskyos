@@ -21,7 +21,6 @@ in
     experimental-features=['scale-monitor-framebuffer']
   '';
   services.gnome.core-apps.enable = false;
-  services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
 #  services.xserver.enable = true;
 #  services.xserver.excludePackages = [ pkgs.xterm ];
