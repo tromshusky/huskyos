@@ -12,7 +12,7 @@ let
   dconf1.settings."org/gnome/mutter".experimental-features = "['scale-monitor-framebuffer']";
   dconf1.settings."org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-type = "nothing";
   dconf1.settings."org/gnome/shell".enabled-extensions = [ "dash-to-dock@micxgx.gmail.com" "gsconnect@andyholmes.github.io" "touchup@mityax" ];
-  dconf1.settings."org/gnome/shell".favorite-apps =  lib.splitString " " "com.brave.Browser.desktop org.gnome.Ptyxis.desktop net.mullvad.MullvadBrowser.desktop org.mozilla.Thunderbird.desktop org.gnome.Software.desktop";
+  dconf1.settings."org/gnome/shell".favorite-apps =  lib.splitString " " "io.gitlab.librewolf-community.desktop org.contourterminal.Contour.desktop io.github.kolunmi.Bazaar.desktop com.brave.Browser.desktop org.gnome.Ptyxis.desktop net.mullvad.MullvadBrowser.desktop org.mozilla.Thunderbird.desktop";
 
 in
 {
