@@ -13,6 +13,7 @@ pkgs.stdenv.mkDerivation {
     cp $src/huskyos.install.sh $out/bin/huskyos-install
     cp $src/huskyos.info.sh $out/bin/huskyos-info
     cp $src/huskyos.update.sh $out/bin/huskyos-update
+    cp $src/runas.sh $out/bin/runas
     chmod +x $out/bin/*
   '';
 }
