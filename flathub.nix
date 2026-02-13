@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   appListPath = ./default-flathub-apps;
-  defaultAppList = builtins.replaceStrings [ "\n" ] [ "" ] (builtins.readFile appListPath);
+  defaultAppList = builtins.replaceStrings [ "\n" ] [ " " ] (builtins.readFile appListPath);
 in
 {
   environment.systemPackages = [ pkgs.gnome-software ];
