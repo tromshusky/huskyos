@@ -2,6 +2,7 @@
 
 USERNAME="$1"
 APPNAME="$2"
+ARGS="${@:3}"
 DIR="/var/lib/flatpak/exports/share/applications"
 
 ## FINDING MATCHES
@@ -42,8 +43,7 @@ echo "App: $chosen"
 
 cmd="$(sed -n '/Desktop Entry/,$s/^Exec=//p' "$chosen" | head -n1)"
 clean_cmd="$(printf '%s' "$cmd" \ | sed -e 's/%u//g' -e 's/%U//g' -e 's/%f//g' -e 's/%F//g')"
-shift; shift;
-cmd_with_args="$clean_cmd $*"
+cmd_with_args="$clean_cmd $ARGS"
 PS4='\n' set -x
 
 su - $USERNAME -c "DISPLAY=$DISPLAY dbus-launch $cmd_with_args"
