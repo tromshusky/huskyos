@@ -3,9 +3,11 @@ pkgs.stdenv.mkDerivation {
   pname = "huskyos-tools";
   version = "0";
 
+  propagatedBuildInputs = [ pkgs.zenity pkgs.expect ]; 
+ 
+
   src = "${./.}";
   phases = [ "installPhase" ]; # Removes all phases except installPhase
-
   installPhase = ''
     mkdir -p $out/bin
     cp $src/huskyos.switch.sh $out/bin/huskyos-switch

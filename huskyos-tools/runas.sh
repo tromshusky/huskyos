@@ -44,6 +44,22 @@ echo "App: $chosen"
 cmd="$(sed -n '/Desktop Entry/,$s/^Exec=//p' "$chosen" | head -n1)"
 clean_cmd="$(printf '%s' "$cmd" \ | sed -e 's/%u//g' -e 's/%U//g' -e 's/%f//g' -e 's/%F//g')"
 cmd_with_args="$clean_cmd $ARGS"
-PS4='\n' set -x
 
-su - $USERNAME -c "DISPLAY=$DISPLAY dbus-launch $cmd_with_args"
+
+case "gui" in 
+  "gui")
+    password=$(zenity --password --title="Authenticate as $USERNAME") || exit 1
+    sucmd='su - '$USERNAME' -c "dbus-launch '$cmd_with_args'"'
+    
+    expect <<EOF
+    spawn $sucmd
+    expect "Password:"
+    send "$password\r"
+    expect EOF
+    EOF
+    ;;
+  "tui")
+    PS4='\n' set -x
+    su - $USERNAME -c "DISPLAY=$DISPLAY dbus-launch $cmd_with_args"
+    ;;
+esac
