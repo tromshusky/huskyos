@@ -41,7 +41,9 @@ echo "App: $chosen"
 ## USING EXEC FROM FILE
 
 cmd="$(sed -n '/Desktop Entry/,$s/^Exec=//p' "$chosen" | head -n1)"
-
+clean_cmd="$(printf '%s' "$cmd" \ | sed -e 's/%u//g' -e 's/%U//g' -e 's/%f//g' -e 's/%F//g')"
+shift; shift;
+cmd_with_args="$clean_cmd $*"
 PS4='\n' set -x
 
-su - $USERNAME -c "DISPLAY=$DISPLAY dbus-launch $cmd"
+su - $USERNAME -c "DISPLAY=$DISPLAY dbus-launch $cmd_with_args"
