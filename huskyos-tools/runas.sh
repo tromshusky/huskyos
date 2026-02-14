@@ -1,34 +1,47 @@
 #!/bin/sh
 
-USER_NAME="$1"
-APP_NAME="$2"
+USERNAME="$1"
+APPNAME="$2"
+DIR="/var/lib/flatpak/exports/share/applications"
 
-if [ -z "$USER_NAME" ] || [ -z "$APP_NAME" ]; then
-    echo "Usage: $0 <username> <appname>"
-    exit 1
-fi
+## FINDING MATCHES
 
-# Search for matching .desktop files in system and user Flatpak exports
-DESKTOP_FILE=$(grep -ril "Name=.*$APP_NAME" \
-    /var/lib/flatpak/exports/share/applications \
-    /usr/local/share/applications \
-    /usr/share/applications \
-    2>/dev/null | head -n 1)
+matched_files=""
 
-if [ -n "$DESKTOP_FILE" ]; then
-    # Extract the Flatpak ID from the Exec line
-    FLATPAK_ID=$(grep -E "^Exec=" "$DESKTOP_FILE" \
-        | sed 's/^Exec=flatpak run //; s/ .*//')
-else
-    # Assume user passed a valid Flatpak ID
-    FLATPAK_ID="$APP_NAME"
-fi
+for f in "$DIR"/*.desktop; do
+    if grep -qi -- "--command=${APPNAME}" "$f"; then
+        matched_files="$matched_files $f"
+    fi
+done
 
-if [ -z "$FLATPAK_ID" ]; then
-    echo "Could not determine Flatpak ID for app '$APP_NAME'"
-    exit 1
-fi
+## SELCTING MATCH
 
-echo "Running Flatpak app '$FLATPAK_ID' as user '$USER_NAME'..."
+set -- $matched_files
+count=$#
 
-su - "$USER_NAME" -c "DISPLAY=:0 dbus-launch flatpak run $FLATPAK_ID"
+case $count in
+  0) echo "No matches found"; exit 1 ;;
+  1) chosen="$1" ;;
+  *)
+    echo "Multiple matches found:"
+    i=1
+    for f in "$@"; do
+        echo "  $i) $f"
+        eval "file_$i=\"$f\""
+        i=$((i+1))
+    done
+    printf "Choose one: "
+    read choice
+    eval "chosen=\$file_$choice"
+    ;;
+esac
+
+echo "App: $chosen"
+
+## USING EXEC FROM FILE
+
+cmd="$(sed -n '/Desktop Entry/,$s/^Exec=//p' "$chosen" | head -n1)"
+
+PS4='\n' set -x
+
+su - $USERNAME -c "DISPLAY=$DISPLAY dbus-launch $cmd"
