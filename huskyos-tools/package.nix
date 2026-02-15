@@ -17,6 +17,7 @@ pkgs.stdenv.mkDerivation {
     cp $src/huskyos.update.sh $out/bin/huskyos-update
     cp $src/flatas.sh $out/bin/flatas
     cp $src/runas.sh $out/bin/runas
+    patchShebangs $out/bin
     chmod +x $out/bin/*
   '';
 }
