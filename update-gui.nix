@@ -25,26 +25,25 @@ let
   guiService.wantedBy = [ mainServiceName ];
 
   upgradeNotifyUserScript = pkgs.writeShellScript "myscript" ''
-        export XDG_RUNTIME_DIR="/run/user/$(id -u)"
         export PATH=$PATH:/run/current-system/sw/bin:${pkgs.libnotify}/bin/
+        export XDG_RUNTIME_DIR="/run/user/$(id -u)"
         gnAni=/org/gnome/desktop/interface/enable-animations
 
-        ID=$(notify-send -p --urgency=critical "System Update" "Updating the system...")
+        ntfBase() { notify-send --urgency=critical "System Update" "$@"; }
+        ntf() { ntfBase --replace-id "$ID" "$@"; }
+        ID=$(ntfBase -p "Updating the system...")
 
-        ntf() {
-          notify-send --urgency=critical --expire-time=5 --replace-id "$ID" "System Update" "$@"
-        }
         activate() {
-          if systemctl start ${acName}.service; then
+          systemctl start ${acName}.service && (
             ntf "...Update applied. Done."; exit 0;
-          else
+          ) || (         
             ntf "...Update activation failed. Applying on next boot. Done."; exit 1;
-          fi
+          )
         }
         cleanup() {
            local userSetting=$(dconf read $gnAni)
            dconf write $gnAni false;
-           answ=$(notify-send --urgency=critical --replace-id "$ID" --action=n=No --action=y=Acitvate "System Update" "Update completed. Activate immediately?")
+           answ=$(ntf --action=n=No --action=y=Activate "Update completed. Activate immediately?")
            dconf write $gnAni $userSetting;
            case "$answ" in
              y) activate ;;
