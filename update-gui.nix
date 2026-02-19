@@ -5,27 +5,37 @@
   ...
 }:
 let
+  mainServiceName = "nixos-upgrade.service";
   acName = "huskyos-activate";
+  guiName = "huskyos-upgrade";
 
   activationService.enable = true;
   activationService.description = "Activate newest system";
   activationService.serviceConfig.Type = "oneshot";
   activationService.serviceConfig.ExecStart = "/nix/var/nix/profiles/system/activate";
 
-  upgradeNotifyUserScript = pkgs.writeShellScript "myscript" ''
-        dconf() { /run/current-system/sw/bin/dconf "$@" || echo; }
-        notify-send() { ${pkgs.libnotify}/bin/notify-send "$@"; }
+  guiService.description = "GUI wrapper for system upgrade";
+  guiService.enable = true;
+  guiService.serviceConfig.ExecStart = "${upgradeNotifyScript}";
+  guiService.serviceConfig.Type = "simple";
+  guiService.unitConfig.PartOf = [ mainServiceName ];
+  guiService.unitConfig.BindsTo = [ mainServiceName ];
+  guiService.unitConfig.Before = [ mainServiceName ];
+  guiService.unitConfig.ConditionPathExistsGlob = "/run/user/*";
+  guiService.wantedBy = [ mainServiceName ];
 
-        export XDG_RUNTIME_DIR=/run/user/1000
+  upgradeNotifyUserScript = pkgs.writeShellScript "myscript" ''
+        export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+        export PATH=$PATH:/run/current-system/sw/bin:${pkgs.libnotify}/bin/
         gnAni=/org/gnome/desktop/interface/enable-animations
 
         ID=$(notify-send -p --urgency=critical "System Update" "Updating the system...")
 
         ntf() {
-          notify-send --urgency=critical --expire-time=5000 --replace-id "$ID" "System Update" "$@"
+          notify-send --urgency=critical --expire-time=5 --replace-id "$ID" "System Update" "$@"
         }
         activate() {
-          if /run/current-system/sw/bin/systemctl start ${acName}.service; then
+          if systemctl start ${acName}.service; then
             ntf "...Update applied. Done."; exit 0;
           else
             ntf "...Update activation failed. Applying on next boot. Done."; exit 1;
@@ -44,7 +54,16 @@ let
         }
         trap cleanup EXIT TERM INT
         sleep infinity & wait $!
-#         while sleep 2; do :; done
+  '';
+
+  upgradeNotifyScript = pkgs.writeShellScript "myscript" ''
+    export PATH=$PATH:/run/current-system/sw/bin
+    for i in /run/user/*; do
+      iID=$(basename $i)
+      iUSER=$(getent passwd $iID | cut -d: -f1)
+      machinectl shell --quiet $iUSER@ "${upgradeNotifyUserScript}" &
+    done
+    wait
   '';
 
   polkitExtraConfig = ''
@@ -54,18 +73,17 @@ let
             return polkit.Result.YES;
         }
     });
-  '';
 
-  upgradeNotifyScript = pkgs.writeShellScript "myscript" ''
-    for i in /run/user/*; do
-      iID=$(/run/current-system/sw/bin/basename $i)
-      iUSER=$(/run/current-system/sw/bin/getent passwd $iID | /run/current-system/sw/bin/cut -d: -f1)
-      /run/current-system/sw/bin/machinectl shell $iUSER@ "${upgradeNotifyUserScript}" & disown
-    done
+    polkit.addRule(function(action, subject) {
+        if (action.id == "org.freedesktop.systemd1.manage-units" &&
+            action.lookup("unit") == "${guiName}.service") {
+            return polkit.Result.YES;
+        }
+    });
   '';
 in
 {
-  systemd.services.nixos-upgrade.serviceConfig.ExecStartPre = [ "${upgradeNotifyScript}" ];
   systemd.services.${acName} = activationService;
+  systemd.services.${guiName} = guiService;
   security.polkit.extraConfig = polkitExtraConfig;
 }
