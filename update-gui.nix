@@ -18,11 +18,16 @@ let
   guiService.enable = true;
   guiService.serviceConfig.ExecStart = "${upgradeNotifyScript}";
   guiService.serviceConfig.Type = "simple";
+  guiService.serviceConfig.KillMode= "control-group";
   guiService.unitConfig.PartOf = [ mainServiceName ];
   guiService.unitConfig.BindsTo = [ mainServiceName ];
   guiService.unitConfig.Before = [ mainServiceName ];
   guiService.unitConfig.ConditionPathExistsGlob = "/run/user/*";
   guiService.wantedBy = [ mainServiceName ];
+
+  guiUserService.description = "";
+  guiUserService.serviceConfig.Type = "simple";
+  guiUserService.serviceConfig.ExecStart = "${upgradeNotifyUserScript}";
 
   upgradeNotifyUserScript = pkgs.writeShellScript "myscript" ''
         export PATH=$PATH:/run/current-system/sw/bin:${pkgs.libnotify}/bin/
@@ -36,15 +41,15 @@ let
         activate() {
           systemctl start ${acName}.service && (
             ntf "...Update applied. Done."; exit 0;
-          ) || (         
+          ) || (
             ntf "...Update activation failed. Applying on next boot. Done."; exit 1;
           )
         }
         cleanup() {
-           local userSetting=$(dconf read $gnAni)
+           [ "$(dconf read $gnAni-backup)" == "" ] && dconf write $gnAni-backup $(dconf read $gnAni);
            dconf write $gnAni false;
            answ=$(ntf --action=n=No --action=y=Activate "Update completed. Activate immediately?")
-           dconf write $gnAni $userSetting;
+           dconf write $gnAni $(dconf read $gnAni-backup);
            case "$answ" in
              y) activate ;;
              n) sleep 1; ntf "Activating system later. Done."; exit 0 ;;
@@ -59,8 +64,7 @@ let
     export PATH=$PATH:/run/current-system/sw/bin
     for i in /run/user/*; do
       iID=$(basename $i)
-      iUSER=$(getent passwd $iID | cut -d: -f1)
-      machinectl shell --quiet $iUSER@ "${upgradeNotifyUserScript}" &
+      systemd-run --uid=$iID -t -q --setenv=XDG_RUNTIME_DIR=$i ${upgradeNotifyUserScript} &
     done
     wait
   '';
