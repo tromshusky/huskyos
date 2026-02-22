@@ -16,7 +16,7 @@
     cp $src/huskyos.activate.sh $out/bin/huskyos-activate
     cp $src/flatas $out/bin/flatas
     cp $src/runas $out/bin/runas
-    cp $src/runas $out/bin/runas-cli
+    cp $src/runas-cli $out/bin/runas-cli
     chmod +x $out/bin/*
     wrapProgram  $out/bin/runas --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.zenity pkgs.expect ]}
   '';
