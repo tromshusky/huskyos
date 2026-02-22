@@ -1,10 +1,8 @@
-{ pkgs, ... }:
-pkgs.stdenv.mkDerivation {
+{ pkgs, ... }: pkgs.stdenv.mkDerivation {
   pname = "huskyos-tools";
   version = "0";
 
-  propagatedBuildInputs = [ pkgs.zenity pkgs.expect ]; 
- 
+  nativeBuildInputs = [ pkgs.makeWrapper ];
 
   src = "${./.}";
   phases = [ "installPhase" ]; # Removes all phases except installPhase
@@ -18,7 +16,8 @@ pkgs.stdenv.mkDerivation {
     cp $src/huskyos.activate.sh $out/bin/huskyos-activate
     cp $src/flatas.sh $out/bin/flatas
     cp $src/runas.sh $out/bin/runas
-    patchShebangs $out/bin
     chmod +x $out/bin/*
+    wrapProgram  $out/bin/flatas --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.zenity pkgs.expect ]}
+    wrapProgram  $out/bin/runas  --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.zenity pkgs.expect ]}
   '';
 }
