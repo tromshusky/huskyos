@@ -1,0 +1,61 @@
+#!/bin/sh
+
+MODE="gui"
+
+# Parse flags
+case "$1" in
+  --cli) MODE="cli"; shift ;;
+  --gui) MODE="gui"; shift ;;
+esac
+
+USERNAME="$1"
+APPNAME="$2"
+ARGS="${@:3}"
+
+if [ -z "$USERNAME" ] || [ -z "$APPNAME" ]; then
+    echo "Usage: $0 [--cli|--gui] <username> <appname> [args...]"
+    exit 1
+fi
+
+DIR="/var/lib/flatpak/exports/share/applications"
+
+matched_files=""
+
+for f in "$DIR"/*.desktop; do
+    if grep -qi -- "--command=${APPNAME}" "$f"; then
+        matched_files="$matched_files $f"
+    fi
+done
+
+set -- $matched_files
+count=$#
+
+case $count in
+  0)
+    echo "No matches found"
+    exit 1
+    ;;
+  1)
+    chosen="$1"
+    ;;
+  *)
+    echo "Multiple matches found:"
+    i=1
+    for f in "$@"; do
+        echo "  $i) $f"
+        eval "file_$i=\"$f\""
+        i=$((i+1))
+    done
+    printf "Choose one: "
+    read choice
+    eval "chosen=\$file_$choice"
+    ;;
+esac
+
+echo "App: $chosen"
+
+cmd="$(sed -n '/Desktop Entry/,$s/^Exec=//p' "$chosen" | head -n1)"
+clean_cmd="$(printf '%s' "$cmd" | sed -e 's/%u//g' -e 's/%U//g' -e 's/%f//g' -e 's/%F//g')"
+cmd_with_args="$clean_cmd $ARGS"
+
+runas "--$MODE" "$USERNAME" "dbus-launch $cmd_with_args"

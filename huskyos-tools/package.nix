@@ -14,10 +14,10 @@
     cp $src/huskyos.info.sh $out/bin/huskyos-info
     cp $src/huskyos.update.sh $out/bin/huskyos-update
     cp $src/huskyos.activate.sh $out/bin/huskyos-activate
-    cp $src/flatas.sh $out/bin/flatas
-    cp $src/runas.sh $out/bin/runas
+    cp $src/flatas $out/bin/flatas
+    cp $src/runas $out/bin/runas
+    cp $src/runas $out/bin/runas-cli
     chmod +x $out/bin/*
-    wrapProgram  $out/bin/flatas --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.zenity pkgs.expect ]}
-    wrapProgram  $out/bin/runas  --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.zenity pkgs.expect ]}
+    wrapProgram  $out/bin/runas --prefix PATH : ${pkgs.lib.makeBinPath [ pkgs.zenity pkgs.expect ]}
   '';
 }

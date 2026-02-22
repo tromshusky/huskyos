@@ -1,0 +1,12 @@
+#!/bin/sh
+
+USERNAME="$1"
+shift
+CMD="$@"
+
+if [ -z "$USERNAME" ] || [ -z "$CMD" ]; then
+    echo "Usage: $0 <username> <command...>"
+    exit 1
+fi
+
+su - "$USERNAME" -c "$CMD"

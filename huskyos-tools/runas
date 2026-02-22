@@ -1,0 +1,36 @@
+#!/bin/sh
+
+MODE="gui"
+
+# Parse flags
+case "$1" in
+  --cli) MODE="cli"; shift ;;
+  --gui) MODE="gui"; shift ;;
+esac
+
+USERNAME="$1"
+shift
+CMD="$@"
+
+if [ -z "$USERNAME" ] || [ -z "$CMD" ]; then
+    echo "Usage: $0 [--cli|--gui] <username> <command...>"
+    exit 1
+fi
+
+case "$MODE" in
+  gui)
+    password=$(zenity --password --title="Authenticate as $USERNAME") || exit 1
+
+    expect <<EOF
+      spawn runas-cli "$USERNAME" "$CMD"
+      expect "Password:"
+      send "$password\r"
+      expect eof
+EOF
+    ;;
+
+  cli)
+    PS4='\n' set -x
+    runas-cli "$USERNAME" "$CMD"
+    ;;
+esac
