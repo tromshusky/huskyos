@@ -31,10 +31,10 @@ let
 
   upgradeNotifyUserScript = pkgs.writeShellScript "myscript" ''
         export PATH=$PATH:/run/current-system/sw/bin:${pkgs.libnotify}/bin/
-        export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+        export XDG_RUNTIME_DIR="/run/user/$(id --user)"
         gnAni=/org/gnome/desktop/interface/enable-animations
 
-        ntfBase() { notify-send --urgency=critical --icon="folder-download-symbolic" -a "System Update" "$@"; }
+        ntfBase() { notify-send --urgency critical --icon "folder-download-symbolic" --app-name "System Update" "$@"; }
         ntf() { ntfBase --replace-id "$ID" "$@"; }
         ntfExit() {
           ID=$(ntf --print-id "$1");
@@ -58,7 +58,7 @@ let
         cleanup() {
            [ "$(dconf read $gnAni-backup)" == "" ] && dconf write $gnAni-backup $(dconf read $gnAni);
            dconf write $gnAni false;
-           answ=$(ntf --action=n=No --action=y=Activate "Update completed. Activate immediately?")
+           answ=$(ntf --action n=No --action y=Activate "Update completed. Activate immediately?")
            dconf write $gnAni $(dconf read $gnAni-backup);
            case "$answ" in
              y) activate ;;
@@ -74,7 +74,7 @@ let
     export PATH=$PATH:/run/current-system/sw/bin
     for i in /run/user/*; do
       iID=$(basename $i)
-      systemd-run --uid=$iID -t -q --setenv=XDG_RUNTIME_DIR=$i ${upgradeNotifyUserScript} &
+      systemd-run --uid $iID --pty --quiet --setenv XDG_RUNTIME_DIR=$i ${upgradeNotifyUserScript} &
     done
     wait
   '';
