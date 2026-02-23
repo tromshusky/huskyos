@@ -37,17 +37,17 @@ let
         ntfBase() { notify-send --urgency=critical --icon="folder-download-symbolic" -a "System Update" "$@"; }
         ntf() { ntfBase --replace-id "$ID" "$@"; }
         ntfExit() {
-          ntf "$1";
+          ID=$(ntf --print-id "$1");
           sleep 5;
           gdbus call \
             --session \
             --dest org.freedesktop.Notifications \
             --object-path /org/freedesktop/Notifications \
             --method org.freedesktop.Notifications.CloseNotification \
-            "$1" >/dev/null 2>&1;
+            "$ID";
           exit $2;
         }
-        ID=$(ntfBase -p "Updating the system...")
+        ID=$(ntfBase --print-id "Updating the system...")
         activate() {
           systemctl start ${acName}.service && (
             ntfExit "...Update applied. Done." 0;
