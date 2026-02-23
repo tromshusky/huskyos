@@ -34,15 +34,25 @@ let
         export XDG_RUNTIME_DIR="/run/user/$(id -u)"
         gnAni=/org/gnome/desktop/interface/enable-animations
 
-        ntfBase() { notify-send --urgency=critical "System Update" "$@"; }
+        ntfBase() { notify-send --urgency=critical --icon="folder-download-symbolic" -a "System Update" "$@"; }
         ntf() { ntfBase --replace-id "$ID" "$@"; }
+        ntfExit() {
+          ntf "$1";
+          sleep 5;
+          gdbus call \
+            --session \
+            --dest org.freedesktop.Notifications \
+            --object-path /org/freedesktop/Notifications \
+            --method org.freedesktop.Notifications.CloseNotification \
+            "$1" >/dev/null 2>&1;
+          exit $2;
+        }
         ID=$(ntfBase -p "Updating the system...")
-
         activate() {
           systemctl start ${acName}.service && (
-            ntf "...Update applied. Done."; exit 0;
+            ntfExit "...Update applied. Done." 0;
           ) || (
-            ntf "...Update activation failed. Applying on next boot. Done."; exit 1;
+            ntfExit "...Update activation failed. Applying on next boot. Done."  1;
           )
         }
         cleanup() {
@@ -52,8 +62,8 @@ let
            dconf write $gnAni $(dconf read $gnAni-backup);
            case "$answ" in
              y) activate ;;
-             n) sleep 1; ntf "Activating system later. Done."; exit 0 ;;
-             *) sleep 1; ntf "No choice recognized. Done."; exit 1 ;;
+             n) sleep 1; ntfExit "Activating system later. Done." 0 ;;
+             *) sleep 1; ntfExit "No choice recognized. Done." 1 ;;
            esac
         }
         trap cleanup EXIT TERM INT
