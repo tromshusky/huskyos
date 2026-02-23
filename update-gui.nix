@@ -36,7 +36,7 @@ let
 
         ntfBase() { notify-send --urgency critical --icon "folder-download-symbolic" --app-name "System Update" "$@"; }
         ntf() { ntfBase --replace-id "$ID" "$@"; }
-        ntfExit() {
+        ntfExit() {
           ID=$(ntf --print-id "$1");
           sleep 5;
           gdbus call \
