@@ -30,14 +30,14 @@ let
   guiUserService.serviceConfig.ExecStart = "${upgradeNotifyUserScript}";
 
   upgradeNotifyUserScript = pkgs.writeShellScript "myscript" ''
-        export PATH=$PATH:/run/current-system/sw/bin:${pkgs.libnotify}/bin/
+        export PATH=$PATH:/run/current-system/sw/bin:${pkgs.libnotify}/bin
         export XDG_RUNTIME_DIR="/run/user/$(id --user)"
         gnAni=/org/gnome/desktop/interface/enable-animations
 
         ntfBase() { notify-send --urgency critical --icon "folder-download-symbolic" --app-name "System Update" "$@"; }
         ntf() { ntfBase --replace-id "$ID" "$@"; }
         ntfExit() {
-          ID=$(ntf --print-id "$1");
+          ID=$(ntf --print-id "$2" "Done");
           sleep 5;
           gdbus call \
             --session \
@@ -45,25 +45,26 @@ let
             --object-path /org/freedesktop/Notifications \
             --method org.freedesktop.Notifications.CloseNotification \
             "$ID";
-          exit $2;
+          exit "$1";
         }
         ID=$(ntfBase --print-id "Updating the system...")
         activate() {
           systemctl start ${acName}.service && (
-            ntfExit "...Update applied. Done." 0;
+            ntfExit "...Update applied." 0;
           ) || (
-            ntfExit "...Update activation failed. Applying on next boot. Done."  1;
+            ntfExit "...Update activation failed. Applying on next boot." 1;
           )
         }
         cleanup() {
+           [ "$( realpath /nix/var/nix/profiles/system )" == "$( realpath /run/current-system )" ] && ntfExit "System is already up to date." 0 ;;
            [ "$(dconf read $gnAni-backup)" == "" ] && dconf write $gnAni-backup $(dconf read $gnAni);
            dconf write $gnAni false;
            answ=$(ntf --action n=No --action y=Activate "Update completed. Activate immediately?")
            dconf write $gnAni $(dconf read $gnAni-backup);
            case "$answ" in
              y) activate ;;
-             n) sleep 1; ntfExit "Activating system later. Done." 0 ;;
-             *) sleep 1; ntfExit "No choice recognized. Done." 1 ;;
+             n) sleep 1; ntfExit "Activating system later." 0 ;;
+             *) sleep 1; ntfExit "No choice recognized." 1 ;;
            esac
         }
         trap cleanup EXIT TERM INT
