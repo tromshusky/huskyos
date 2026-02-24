@@ -10,6 +10,13 @@
             action.lookup("unit") == "nixos-upgrade.service") {
             return polkit.Result.YES;
         }
-    }); 
+    });
+
+    polkit.addRule(function(action, subject) {
+      if (action.id == "org.freedesktop.journal.read"
+          && action.lookup("unit") == "nixos-upgrade.service") {
+        return polkit.Result.YES;
+      }
+    });
   '';
 }
