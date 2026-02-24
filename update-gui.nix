@@ -56,7 +56,7 @@ let
           )
         }
         cleanup() {
-           [ "$( realpath /nix/var/nix/profiles/system )" == "$( realpath /run/current-system )" ] && ntfExit "System is already up to date." 0 ;;
+           [ "$( realpath /nix/var/nix/profiles/system )" == "$( realpath /run/current-system )" ] && ntfExit "System is already up to date." 0 ;
            [ "$(dconf read $gnAni-backup)" == "" ] && dconf write $gnAni-backup $(dconf read $gnAni);
            dconf write $gnAni false;
            answ=$(ntf --action n=No --action y=Activate "Update completed. Activate immediately?")
