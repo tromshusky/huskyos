@@ -56,18 +56,22 @@ let
           )
         }
         cleanup() {
-           [ "$( realpath /nix/var/nix/profiles/system )" == "$( realpath /run/current-system )" ] && ntfExit "System is already up to date." 0 ;
-           [ "$(dconf read $gnAni-backup)" == "" ] && dconf write $gnAni-backup $(dconf read $gnAni);
-           dconf write $gnAni false;
-           answ=$(ntf --action n=No --action y=Activate "Update completed. Activate immediately?")
-           dconf write $gnAni $(dconf read $gnAni-backup);
-           case "$answ" in
-             y) activate ;;
-             n) sleep 1; ntfExit "Activating system later." 0 ;;
-             *) sleep 1; ntfExit "No choice recognized." 1 ;;
-           esac
+          [ "$( realpath /nix/var/nix/profiles/system )" == "$( realpath /run/current-system )" ] && ntfExit "System is already up to date." 0 ;
+          [ "$(dconf read $gnAni-backup)" == "" ] && dconf write $gnAni-backup $(dconf read $gnAni);
+          dconf write $gnAni false;
+          answ=$(ntf --action n=No --action y=Activate "Update completed. Activate immediately?")
+          dconf write $gnAni $(dconf read $gnAni-backup);
+          case "$answ" in
+            y) activate ;;
+            n) sleep 1; ntfExit "Activating system later." 0 ;;
+            *) sleep 1; ntfExit "No choice recognized." 1 ;;
+          esac
         }
         trap cleanup EXIT TERM INT
+        while sleep 1; do
+          INFO=$(journalctl -e --lines 2 --unit nixos-upgrade.service -o cat)
+          ntf "Updating the system..." "$INFO";
+        done;
         sleep infinity & wait $!
   '';
 
