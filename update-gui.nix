@@ -37,7 +37,7 @@ let
         ntfBase() { notify-send --urgency critical --icon "folder-download-symbolic" --app-name "System Update" "$@"; }
         ntf() { ntfBase --replace-id "$ID" "$@"; }
         ntfExit() {
-          ID=$(ntf --print-id "$2" "Done");
+          ID=$(ntf --print-id "$1" "Done");
           sleep 5;
           gdbus call \
             --session \
@@ -45,7 +45,7 @@ let
             --object-path /org/freedesktop/Notifications \
             --method org.freedesktop.Notifications.CloseNotification \
             "$ID";
-          exit "$1";
+          exit "$2";
         }
         ID=$(ntfBase --print-id "Updating the system...")
         activate() {
