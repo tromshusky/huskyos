@@ -2,6 +2,7 @@
   system.autoUpgrade.flags = [ "--upgrade-all" "--no-write-lock-file" ];
   system.autoUpgrade.flake = "${config.huskyos.flakeFolder}";
   system.autoUpgrade.enable = true;
+  systemd.services.nixos-upgrade.serviceConfig.SupplementaryGroups = [ "users" ];
   
   # allow all users to invoke an update
   security.polkit.extraConfig = ''
@@ -10,13 +11,6 @@
             action.lookup("unit") == "nixos-upgrade.service") {
             return polkit.Result.YES;
         }
-    });
-
-    polkit.addRule(function(action, subject) {
-      if (action.id == "org.freedesktop.journal.read"
-          && action.lookup("unit") == "nixos-upgrade.service") {
-        return polkit.Result.YES;
-      }
     });
   '';
 }
