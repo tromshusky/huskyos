@@ -34,7 +34,7 @@ let
         export XDG_RUNTIME_DIR="/run/user/$(id --user)"
         gnAni=/org/gnome/desktop/interface/enable-animations
 
-        ntfBase() { notify-send --urgency critical --icon "folder-download-symbolic" --app-name "System Update" "$@"; }
+        ntfBase() { notify-send --urgency critical --app-icon "folder-download-symbolic" --app-name "System Update" "$@"; }
         ntf() { ntfBase --replace-id "$ID" "$@"; }
         ntfExit() {
           ID=$(ntf --print-id "$1" "Done");
