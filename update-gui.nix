@@ -8,7 +8,7 @@ let
   mainServiceName = "nixos-upgrade.service";
   acName = "huskyos-activate";
   guiName = "huskyos-upgrade";
-  LOGFILENAME = "/huskyupdate.txt";
+  LOGFILENAME = "/myupdatelog.txt";
 
   activationService.enable = true;
   activationService.description = "Activate newest system";
