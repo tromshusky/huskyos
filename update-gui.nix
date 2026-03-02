@@ -8,7 +8,7 @@ let
   mainServiceName = "nixos-upgrade.service";
   acName = "huskyos-activate";
   guiName = "huskyos-upgrade";
-  LOGFILENAME = "/myupdatelog.txt";
+  LOGFILENAME = "/var/log/huskyUpdate.log";
 
   activationService.enable = true;
   activationService.description = "Activate newest system";
@@ -30,7 +30,6 @@ let
   guiUserService.serviceConfig.Type = "simple";
   guiUserService.serviceConfig.ExecStart = "${upgradeNotifyUserScript}";
 
-  system.autoUpgrade.flags = [ "2>${LOGFILENAME}" ];
   upgradeNotifyUserScript = pkgs.writeShellScript "myscript" ''
         export PATH=$PATH:/run/current-system/sw/bin:${pkgs.libnotify}/bin
         export XDG_RUNTIME_DIR="/run/user/$(id --user)"
@@ -71,7 +70,7 @@ let
         }
         trap cleanup EXIT TERM INT
         while sleep 1; do
-          INFO=$(tail -n 1 ${LOGFILENAME})
+          INFO=$(tail -n 1 ${LOGFILENAME} | sed -E 's/.*is not set, defaulting to ([0-9]+\.[0-9]+).*/system.stateVersion \1/')
           ntf "Updating the system..." "$INFO";
         done;
         sleep infinity & wait $!
@@ -103,6 +102,8 @@ let
   '';
 in
 {
+  system.autoUpgrade.flags = [ "2>${LOGFILENAME}" ];
+
   systemd.services.${acName} = activationService;
   systemd.services.${guiName} = guiService;
   security.polkit.extraConfig = polkitExtraConfig;
