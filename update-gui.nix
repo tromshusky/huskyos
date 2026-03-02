@@ -8,6 +8,7 @@ let
   mainServiceName = "nixos-upgrade.service";
   acName = "huskyos-activate";
   guiName = "huskyos-upgrade";
+  LOGFILENAME = "/myupdatelog.txt";
 
   activationService.enable = true;
   activationService.description = "Activate newest system";
@@ -29,6 +30,7 @@ let
   guiUserService.serviceConfig.Type = "simple";
   guiUserService.serviceConfig.ExecStart = "${upgradeNotifyUserScript}";
 
+  system.autoUpgrade.flags = [ "2>${LOGFILENAME}" ];
   upgradeNotifyUserScript = pkgs.writeShellScript "myscript" ''
         export PATH=$PATH:/run/current-system/sw/bin:${pkgs.libnotify}/bin
         export XDG_RUNTIME_DIR="/run/user/$(id --user)"
@@ -69,7 +71,7 @@ let
         }
         trap cleanup EXIT TERM INT
         while sleep 1; do
-          INFO=$(journalctl -e --lines 2 --unit nixos-upgrade.service -o cat)
+          INFO=$(tail -n 1 ${LOGFILENAME})
           ntf "Updating the system..." "$INFO";
         done;
         sleep infinity & wait $!
