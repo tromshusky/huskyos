@@ -2,7 +2,6 @@
   system.autoUpgrade.flags = [ "--upgrade-all" "--no-write-lock-file" ];
   system.autoUpgrade.flake = "${config.huskyos.flakeFolder}";
   system.autoUpgrade.enable = true;
-  systemd.services.nixos-upgrade.serviceConfig.SupplementaryGroups = [ "users" ];
   
   # allow all users to invoke an update
   security.polkit.extraConfig = ''
