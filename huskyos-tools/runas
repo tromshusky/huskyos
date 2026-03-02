@@ -19,9 +19,8 @@ fi
 
 case "$MODE" in
   gui)
-    password=$(zenity --password --title="Authenticate as $USERNAME") || exit 1
-
-    expect <<EOF
+    password=$(zenity --password --title="Run        $CMD        as $USERNAME:") || exit 1
+    expect 2>/dev/null <<EOF
       spawn runas-cli "$USERNAME" "$CMD"
       expect "Password:"
       send "$password\r"
