@@ -50,7 +50,8 @@ mkdir /mnt/btr /mnt/nix /mnt/boot /mnt/userdata
 
 mount -o subvol=/ $BTR /mnt/btr
 btrfs subvolume create /mnt/btr/@huskyos
-btrfs subvolume create /mnt/btr/@huskyos/@userdata /mnt/btr/@huskyos/@boot /mnt/btr/@huskyos/@nix
+btrfs subvolume create /mnt/btr/@huskyos/@userdata-peach /mnt/btr/@huskyos/@boot /mnt/btr/@huskyos/@nix
+ln -snf @userdata-peach @userdata
 
 mount $BTR -o subvol=@huskyos/@boot /mnt/boot
 mount $BTR -o subvol=@huskyos/@nix /mnt/nix
