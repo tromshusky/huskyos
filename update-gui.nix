@@ -36,9 +36,10 @@ let
         gnAni=/org/gnome/desktop/interface/enable-animations
 
         ntfBase() { notify-send --urgency critical --app-icon "folder-download-symbolic" --app-name "System Update" "$@"; }
-        ntf() { ntfBase --replace-id "$ID" "$@"; }
+        ntfQuiet() { ntfBase --replace-id "$ID" "$@"; }
+        ntf() { ID=$(ntfQuiet --print-id "$@"); }
         ntfExit() {
-          ID=$(ntf --print-id "$1" "Done");
+          ntf "$1" "Done";
           sleep 5;
           gdbus call \
             --session \
@@ -60,7 +61,7 @@ let
           [ "$( realpath /nix/var/nix/profiles/system )" == "$( realpath /run/current-system )" ] && ntfExit "System is already up to date." 0 ;
           [ "$(dconf read $gnAni-backup)" == "" ] && dconf write $gnAni-backup $(dconf read $gnAni);
           dconf write $gnAni false;
-          answ=$(ntf --action n=No --action y=Activate "Update completed. Activate immediately?")
+          answ=$(ntfQuiet --action n=No --action y=Activate "Update completed. Activate immediately?")
           dconf write $gnAni $(dconf read $gnAni-backup);
           case "$answ" in
             y) activate ;;
@@ -70,7 +71,7 @@ let
         }
         trap cleanup EXIT TERM INT
         while sleep 1; do
-          INFO=$(tail -n 1 ${LOGFILENAME} | sed -E 's/.*is not set, defaulting to ([0-9]+\.[0-9]+).*/system.stateVersion \1/')
+          INFO=$(tail -n 1 ${LOGFILENAME} | sed -E 's/.*is not set, defaulting to ([0-9]+\.[0-9]+).*/Implying system.stateVersion \1/')
           ntf "Updating the system..." "$INFO";
         done;
         sleep infinity & wait $!
