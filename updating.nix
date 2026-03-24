@@ -2,6 +2,7 @@
   system.autoUpgrade.flags = [ "--upgrade-all" "--no-write-lock-file" ];
   system.autoUpgrade.flake = "${config.huskyos.flakeFolder}";
   system.autoUpgrade.enable = true;
+  system.autoUpgrade.operation = "boot";
   
   # allow all users to invoke an update
   security.polkit.extraConfig = ''
