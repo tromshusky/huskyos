@@ -13,6 +13,64 @@ HuskyOS actively aims to deprecate flawed design decisions from other well known
 - no passwords by default. Passwords usually do not keep anyone out of your system. It is and should be difficult by default to wreck your system but possible to use the system without remembereing one more password.
 - indestructible by design. 99.9% of desktop operating systems in use have a vulnerable core protected by many safe guard mechanisms, like AntiVirus, password prompts, backup partitions and repair tools. HuskyOS is built from the core to be indestructible and actually forgets all modifications to the core on a fresh boot. Permanent modifications are still possible but are stored in a short and readable way, allowing it to be backed up easily and/or copied to another system.
 - multiple users on one account: multi user accounts are not widely used. HuskyOS allows to have a guest user account but still open apps for a specific user.
+# Opinions about other Operating Systems for computers
+
+## NixOS
+#### Pros
+- Best Immutable Base
+- Copy-and-paste configuration
+- Easy to widely customize
+
+#### Cons
+- Not for new users at all
+- Opt in automatic updates
+
+## Fedora Silverblue
+#### Pros
+- Immutable Base
+- Easy to use for new users
+- Centered around the most successful linux app ecosystem: flatpak
+- Lots of good default configurations:
+  - System updates with gui
+  - Limited amount of rollback generations, keeping the backend tidy
+#### Cons
+- Limited hardware support
+- No copy-and-paste configuration
+- sudo-centered workflow
+- permanently installed (gnome) default apps
+
+## Windows
+#### Pros
+- hurdles to destroy the core system
+#### Cons
+- Not free
+- Needs account
+- No freedom to decide what your computer does
+- Bloated
+- Not configurable
+- Slow
+- Software obsolecense
+- Not for old hardware 
+
+
+## Debian
+#### Pros
+- easy to configure
+#### Cons
+- Not immutable
+  - changes to the system are permanent and not reversible
+  - Over time, uninstalled packages leave traces in the system that are almost impossible to manage
+  - if the system does not boot, you lost everything
+  
+## GUIX
+#### Pros
+- Best immutable base
+#### Cons
+- Software is often outdated
+- Limited software catalogue
+- opt in nonfree firmware
+
+
 
 # QUICK INSTALL (INTERACTIVE)
 
