@@ -17,6 +17,7 @@
       ./plymouth.nix
       ./root-pw.nix
       ./steam.nix
+      ./ukiboot.nix
       ./update-gui.nix
       ./updating.nix
       ./user.nix
