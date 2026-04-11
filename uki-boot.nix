@@ -6,7 +6,7 @@
 }:
 let
   initCmdline = [ "init=/nix/var/nix/profiles/system/init" ];
-  ukiConfig.imports = [ ./hardware-configuration-no-filesystems.nix ];
+  ukiConfig.imports = [ config.huskyos.hardwareUri ];
   ukiConfig.fileSystems = config.fileSystems;
   ukiConfig.boot.plymouth = config.boot.plymouth;
   ukiConfig.boot.kernelParams = config.boot.kernelParams ++ initCmdline;
