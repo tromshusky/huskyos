@@ -16,7 +16,7 @@
       ./keyboard-layout.nix
       ./plymouth.nix
       ./root-pw.nix
-      ./steam.nix
+#      ./steam.nix
       ./update-gui.nix
       ./updating.nix
       ./user.nix
