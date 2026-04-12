@@ -22,7 +22,7 @@ let
     uki=${ukiDir}/nixos.efi;
     echo atomic swapping existing kernel...;
     tmpdir=$(mktemp -d) &&
-    mount ${builtins.readFile config.huskyos.efiDevice} $tmpdir &&
+    mount $(cat ${config.huskyos.efiDevice}) $tmpdir &&
     mkdir -p $tmpdir/efi/boot;
     cd $tmpdir/efi/boot &&
     cp $uki BOOTX64-next.EFI &&
