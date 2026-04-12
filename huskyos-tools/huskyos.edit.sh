@@ -19,6 +19,6 @@ cond_etc_nixos_flake_exists || cp /etc/huskyos/* /etc/nixos/ || {
     exit;
 }
 
-cond_etc_nixos_flake_exists;
+cond_etc_nixos_flake_exists || exit;
 
-$EDITOR /etc/nixos/flake.nix;
+$EDITOR /etc/nixos/flake.nix /etc/nixos/config.nix;
